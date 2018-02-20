@@ -1,0 +1,93 @@
+<html>
+<head>
+    <title>SF Motors Mule Car</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 480px;
+        width: 960px;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+      var car_svg = "M17.402,0H5.643C2.526,0,0,3.467,0,6.584v34.804c0,3.116,2.526,5.644,5.643,5.644h11.759c3.116,0,5.644-2.527,5.644-5.644 V6.584C23.044,3.467,20.518,0,17.402,0z M22.057,14.188v11.665l-2.729,0.351v-4.806L22.057,14.188z M20.625,10.773 c-1.016,3.9-2.219,8.51-2.219,8.51H4.638l-2.222-8.51C2.417,10.773,11.3,7.755,20.625,10.773z M3.748,21.713v4.492l-2.73-0.349 V14.502L3.748,21.713z M1.018,37.938V27.579l2.73,0.343v8.196L1.018,37.938z M2.575,40.882l2.218-3.336h13.771l2.219,3.336H2.575z M19.328,35.805v-7.872l2.729-0.355v10.048L19.328,35.805z";
+      var getLocation = function(options) {
+        return new Promise(function (resolve, reject){
+          navigator.geolocation.getCurrentPosition(resolve, reject, options);
+        });
+      }
+      var map;
+      var car;
+      var car_icon;
+      var isMapReady = false;
+      var prev_pos;
+      function initMap() {
+        car_icon = {
+          path: car_svg,
+          scale: .7,
+          strokeColor: 'white',
+          strokeWeight: .10,
+          fillOpacity: 1,
+          offset: '5%',
+          // rotation: parseInt(heading[i]),
+          anchor: new google.maps.Point(10, 25) // orig 10,50 back of car, 10,0 front of car, 10,25 center of car
+        };
+        getLocation()
+        .then((position) => {
+          var pos = {lat: position.coords.latitude, lng: position.coords.longitude};
+          map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 16,
+            center: pos 
+          });
+          google.maps.event.addListenerOnce(map, "idle", function() {
+              isMapReady = true;
+          });
+        })
+        .catch((err) => {
+          console.log("Cannot get current location "  + err.message);
+        });
+      }
+      var i = 0;
+      setInterval(updatePosition, 500);
+      function updatePosition(){
+        navigator.geolocation.getCurrentPosition(function(position){
+          var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+          console.log("#" + i + ": update position... lat=" + position.coords.latitude + ", lng=" + position.coords.longitude);
+          if (isMapReady){
+            map.setCenter(pos);
+            if (car) {
+              let heading = Math.round(google.maps.geometry.spherical.computeHeading(prev_pos, pos));
+              car.setPosition(pos);
+              car_icon.rotation = heading;
+              car.setIcon(car_icon);
+            } else {
+              car = new google.maps.Marker({
+                position: pos,
+                map: map,
+                icon: car_icon,
+                rotation: 0.9 
+              });
+              car.setPosition(pos);
+              prev_pos = pos;
+            }
+          }
+        });
+        i += 1;
+      }
+    </script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3s_1AD0UuynluuBQh92vnrxzNXTRPeCo&libraries=geometry,drawing&callback=initMap">
+    </script>
+</body>
+</html>
