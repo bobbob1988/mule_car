@@ -10,8 +10,9 @@ module.exports = {
   ],
   module: {
     loaders: [
-    { test: /\.js?$/, loader: 'babel-loader', exclude: /node_modules/ },
+    { test: /\.(jsx|js)?$/, loader: 'babel-loader', exclude: /node_modules/ },
     { test: /\.s?css$/, loader: 'style-loader!css-loader!sass-loader' },
+    { test: /\.json$/, loader: 'json-loader' },
     {
      test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
      use: [{
@@ -24,9 +25,9 @@ module.exports = {
    },
    {
     test: /\.(gif|png|jpe?g)$/i,
-     use: [
-     'file-loader',
-     {
+    use: [
+    'file-loader',
+    {
       loader: 'image-webpack-loader',
       options: {
         bypassOnDebug: true,
@@ -43,7 +44,7 @@ resolve: {
   path.resolve('./'),
   path.resolve('./node_modules'),
   ],
-  extensions: ['.js','.scss'],
+  extensions: ['.js','.scss','.jsx','.json'],
 },
 output: {
   path: path.join(__dirname, '/dist'),
@@ -58,6 +59,10 @@ devServer: {
 plugins: [
 new webpack.optimize.OccurrenceOrderPlugin(),
 new webpack.HotModuleReplacementPlugin(),
-new webpack.NoEmitOnErrorsPlugin()
+new webpack.NoEmitOnErrorsPlugin(),
+//The plugin replacement function is used to solve the iconv-loader issue
+new webpack.NormalModuleReplacementPlugin(
+       /\/iconv-loader$/, 'node-fetch'
+   )
 ]
 };

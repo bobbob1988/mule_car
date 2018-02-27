@@ -1,6 +1,9 @@
 import React,  { Component } from 'react';
 import { select, arc, scaleLinear, interpolate, scaleLog, line, range, easeCubicInOut, easeCircle } from 'd3';
 
+import lights from '../../../assets/images/lights.svg';
+import seatBelt from '../../../assets/images/seat-belt.svg';
+import rearWindowDefrost from '../../../assets/images/rear-window-defrost.svg';
 //import fetch from 'node-fetch'
 
 export default class RpmGauge extends Component {  
@@ -18,8 +21,8 @@ export default class RpmGauge extends Component {
   }
 
   componentWillUpdate() {
-    this.setValue(this.props.value.speed, 10);
-    this.setValuePower(this.props.value.power, 10);
+    this.setValue(this.props.value.speed, 200);
+    this.setValuePower(this.props.value.power, 200);
   }
 
   generate() {
@@ -29,7 +32,7 @@ export default class RpmGauge extends Component {
     const svgHeight = parseInt(svg.style("height"));
     const bg = svg.append('g').attr('class', 'status').attr('transform', `translate(${svgWidth/2}, ${svgHeight/2})`);
     const g = svg.append('g').attr('transform', `translate(${svgWidth/2}, ${svgHeight/2})`);
-    const colors = ['#D1D1D1', '#AFAFAF', '#FFFFFF', '#FD3104',  '#171717', '#0aa8d8', '#0A0A0A', '#fd7804'];
+    const colors = ['#D1D1D1', '#AFAFAF', '#FFFFFF', '#FD3104',  '#171717', '#0aa8d8', '#0A0A0A', '#fd7804', '#10f249'];
     const MPHticksData = [
     { value: 0 },
     { value: 20 },
@@ -89,6 +92,21 @@ export default class RpmGauge extends Component {
     .attr('stop-opacity', 0.7);
     gradientPower.append('stop')
     .attr('offset', '100%')
+    .attr('stop-color', colors[6])
+    .attr('stop-opacity', 1);
+
+    const gradientPowerNegative = defs.append('linearGradient')
+    .attr('id', 'gradient4')
+    .attr('x1', '0%')
+    .attr('y1', '0%')
+    .attr('x2', '50%')
+    .attr('y2', '100%');
+    gradientPowerNegative.append('stop')
+    .attr('offset', '0%')
+    .attr('stop-color', colors[8])
+    .attr('stop-opacity', 0.7);
+    gradientPowerNegative.append('stop')
+    .attr('offset', '90%')
     .attr('stop-color', colors[6])
     .attr('stop-opacity', 1);
 
@@ -366,40 +384,6 @@ export default class RpmGauge extends Component {
     .style('position', 'absolute')
     .style('z-index', '10');
 
-    // // rpm x 1000 text
-    // tg.append('text')
-    // .text('1/min x 1000')
-    // .attr('font-size', '14')
-    // .attr('text-anchor', 'middle')
-    // .attr('fill', colors[2])
-    // .attr('x', '0')
-    // .attr('y', '85px')
-    // .style('position', 'absolute')
-    // .style('z-index', '10');
-
-    // lights icon
-    // tg.append('image')
-    // .attr('xlink:href', lights)
-    // .attr('x', '10px')
-    // .attr('y', '134px')
-    // .attr('width', '35px')
-    // .attr('height', '35px');
-
-    // // seat belt icon
-    // tg.append('image')
-    // .attr('xlink:href', seatBelt)
-    // .attr('x', '56px')
-    // .attr('y', '120px')
-    // .attr('width', '30px')
-    // .attr('height', '30px');
-
-    // // rear window defrost icon
-    // tg.append('image')
-    // .attr('xlink:href', rearWindowDefrost)
-    // .attr('x', '95px')
-    // .attr('y', '95px')
-    // .attr('width', '30px')
-    // .attr('height', '30px');
   }
 
   degToRad(deg) {
@@ -430,7 +414,6 @@ export default class RpmGauge extends Component {
     const chartangle = this.degToRad(minAngle + (this.scale(value) * angleRange));
 
     this.speedText.transition()
-    .duration(duration)
     .ease(easeCubicInOut)
     .text(value);
 
@@ -462,7 +445,7 @@ export default class RpmGauge extends Component {
 
     this.arc_mph.transition()
     .duration(duration)
-    .ease(easeCircle)
+    .ease(easeCubicInOut)
     .attrTween("d", arcTween(chartangle));
 
   }
@@ -492,6 +475,7 @@ export default class RpmGauge extends Component {
     const innerRadius_status = 200 - 20;
     
     // the round circle which will be updated by the angle
+   
     var circle_power = arc()
     .innerRadius(innerRadius_status)
     .outerRadius(outerRadius_status)
@@ -508,9 +492,10 @@ export default class RpmGauge extends Component {
       };
     }
 
-    this.arc_power.transition()
+    this.arc_power
+    .transition()
     .duration(duration)
-    .ease(easeCircle)
+    .ease(easeCubicInOut)
     .attrTween("d", arcTween(chartangle));
 
   }
