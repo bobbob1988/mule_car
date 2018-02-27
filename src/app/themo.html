@@ -1,18 +1,18 @@
 <html>
 <head><title>Thermostate</title></head>
 
-<body>
+<body bgcolor="#212529">
 
 <h2>Temperature</h2>
 
-<svg width="800" height="600">
+<svg viewBox="0 0 1200 1200">
   <!-- radiator -->
   <g>
     <line x1="41" y1="25" x2="41" y2="200" stroke="red" stroke-width="3" />
     <line x1="41" y1="300" x2="41" y2="500" stroke="red" stroke-width="3" />
     <g transform="translate(30,200)">
-      <rect x="0" y="0" rx="2" ry="2" width="20" height="100" fill="black" stroke="darkgrey" stroke-width="2"/>
-      <text x="-80" y="-5" transform="rotate(-90)" font-family="Verdana" font-size="15"> Radiator </text>
+      <rect x="0" y="0" rx="2" ry="2" width="20" height="100" fill="grey" stroke="darkgrey" stroke-width="2"/>
+      <text x="-80" y="-5" transform="rotate(-90)" font-family="Verdana" font-size="15" fill="white"> Radiator </text>
     </g>
   </g>
   <!-- top reservoir -->
@@ -25,7 +25,7 @@
   </g>
   <!-- front drive unit -->
   <g transform="translate(350,0)">
-    <rect x="0" y="2" width="160" height="185" fill="white" stroke="darkgrey" stroke-dasharray="5, 5" stroke-width="2"/>
+    <rect x="0" y="2" width="160" height="185" fill="darkgrey" stroke="darkgrey" stroke-dasharray="5, 5" stroke-width="2"/>
     <text font-family="Verdana" font-size="12" font-color="grey">
       <tspan x="92" y="28"> Front </tspan>
       <tspan x="92" y="48"> Drive Unit </tspan>
@@ -48,7 +48,7 @@
   <line x1="435" y1="150" x2="650" y2="150" stroke="red" stroke-width="3" />
   <!-- rear drive unit -->
   <g transform="translate(600,250)">
-    <rect x="0" y="2" width="160" height="185" fill="white" stroke="darkgrey" stroke-dasharray="5, 5" stroke-width="2"/>
+    <rect x="0" y="2" width="160" height="185" fill="darkgrey" stroke="darkgrey" stroke-dasharray="5, 5" stroke-width="2"/>
     <text font-family="Verdana" font-size="12" font-color="grey">
       <tspan x="92" y="28"> Rear </tspan>
       <tspan x="92" y="48"> Drive Unit </tspan>
@@ -87,7 +87,7 @@
   </g>
   <!-- chiller -->
   <g transform="translate(130,210)">
-    <rect x="0" y="2" width="80" height="185" fill="white" stroke="darkgrey" stroke-dasharray="5, 5" stroke-width="2"/>
+    <rect x="0" y="2" width="80" height="185" fill="darkgrey" stroke="darkgrey" stroke-dasharray="5, 5" stroke-width="2"/>
     <g transform="translate(30,60)">
       <rect x="0" y="0" width="20" height="75" fill="beige" stroke="darkgrey" stroke-width="2"/>
       <text x="-71" y="14" transform="rotate(-90)" font-family="Verdana" font-size="12"> Evaporator </text>
@@ -96,7 +96,7 @@
   </g>
   <!-- hvac -->
   <g transform="translate(240,210)">
-    <rect x="0" y="2" width="100" height="185" fill="white" stroke="darkgrey" stroke-dasharray="5, 5" stroke-width="2"/>
+    <rect x="0" y="2" width="100" height="185" fill="darkgrey" stroke="darkgrey" stroke-dasharray="5, 5" stroke-width="2"/>
     <text x="-51" y="92" transform="rotate(-90)" font-family="Verdana" font-size="14"> HVAC </text>
   </g>
   <!-- to chiller (top) -->
@@ -120,42 +120,42 @@
   <!-- T1 -->
   <g transform="translate(675,460)">
     <g transform="rotate(90)">
-      <polygon points="4,0 6,0 10,5 6,10 4,10 0,5" fill="white" stroke="grey" stroke-width="1.5" />
-      <rect x="3.5" y="10" width="3" height="14" fill="white" stroke="grey" stroke-width="1.3" />
+      <polygon points="4,0 6,0 10,5 6,10 4,10 0,5" fill="white" stroke="black" stroke-width="1.5" />
+      <rect x="3.5" y="10" width="3" height="14" fill="white" stroke="black" stroke-width="1.3" />
     </g>
-    <text x="10" y="10" font-size="16" font-weight="bold" fill="purple" stroke="purple"> 90&#8457; [T1] </text>
+    <text x="10" y="10" font-size="16" font-weight="bold" fill="lime"> 90&#8457; [T1] </text>
   </g>
   <!-- T2 -->
   <g transform="translate(675,220)">
     <g transform="rotate(90)">
-      <polygon points="4,0 6,0 10,5 6,10 4,10 0,5" fill="white" stroke="grey" stroke-width="1.5" />
-      <rect x="3.5" y="10" width="3" height="14" fill="white" stroke="grey" stroke-width="1.3" />
+      <polygon points="4,0 6,0 10,5 6,10 4,10 0,5" fill="white" stroke="black" stroke-width="1.5" />
+      <rect x="3.5" y="10" width="3" height="14" fill="white" stroke="black" stroke-width="1.3" />
     </g>
-    <text x="10" y="10" font-size="16" font-weight="bold" fill="purple" stroke="purple"> 70&#8457; [T2] </text>
+    <text x="10" y="10" font-size="16" font-weight="bold" fill="lime"> 70&#8457; [T2] </text>
   </g>
   <!-- T3 -->
   <g transform="translate(275,1)">
     <g>
-      <polygon points="4,0 6,0 10,5 6,10 4,10 0,5" fill="white" stroke="grey" stroke-width="1.5" />
-      <rect x="3.5" y="10" width="3" height="14" fill="white" stroke="grey" stroke-width="1.3" />
+      <polygon points="4,0 6,0 10,5 6,10 4,10 0,5" fill="white" stroke="black" stroke-width="1.5" />
+      <rect x="3.5" y="10" width="3" height="14" fill="white" stroke="black" stroke-width="1.3" />
     </g>
-    <text x="14" y="16" font-size="16" font-weight="bold" fill="purple" stroke="purple"> 50&#8457; [T3] </text>
+    <text x="14" y="16" font-size="16" font-weight="bold" fill="lime"> 50&#8457; [T3] </text>
   </g>
   <!-- T4 -->
   <g transform="translate(380,175)">
     <g>
-      <polygon points="4,0 6,0 10,5 6,10 4,10 0,5" fill="white" stroke="grey" stroke-width="1.5" />
-      <rect x="3.5" y="10" width="3" height="14" fill="white" stroke="grey" stroke-width="1.3" />
+      <polygon points="4,0 6,0 10,5 6,10 4,10 0,5" fill="white" stroke="black" stroke-width="1.5" />
+      <rect x="3.5" y="10" width="3" height="14" fill="white" stroke="black" stroke-width="1.3" />
     </g>
-    <text x="14" y="16" font-size="16" font-weight="bold" fill="purple" stroke="purple"> 60&#8457; [T4] </text>
+    <text x="14" y="16" font-size="16" font-weight="bold" fill="lime"> 60&#8457; [T4] </text>
   </g>
   <!-- T5 -->
   <g transform="translate(590,210)">
     <g transform="rotate(90)">
-      <polygon points="4,0 6,0 10,5 6,10 4,10 0,5" fill="white" stroke="grey" stroke-width="1.5" />
-      <rect x="3.5" y="10" width="3" height="14" fill="white" stroke="grey" stroke-width="1.3" />
+      <polygon points="4,0 6,0 10,5 6,10 4,10 0,5" fill="white" stroke="black" stroke-width="1.5" />
+      <rect x="3.5" y="10" width="3" height="14" fill="white" stroke="black" stroke-width="1.3" />
     </g>
-    <text font-size="16" font-weight="bold" fill="purple" stroke="purple"> 
+    <text font-size="16" font-weight="bold" fill="lime"> 
       <tspan x="5" y="10">55&#8457;</tspan>
       <tspan x="5" y="27">[T5]</tspan>
     </text>
@@ -163,10 +163,10 @@
   <!-- T6 -->
   <g transform="translate(285,385)">
     <g>
-      <polygon points="4,0 6,0 10,5 6,10 4,10 0,5" fill="white" stroke="grey" stroke-width="1.5" />
-      <rect x="3.5" y="10" width="3" height="14" fill="white" stroke="grey" stroke-width="1.3" />
+      <polygon points="4,0 6,0 10,5 6,10 4,10 0,5" fill="white" stroke="black" stroke-width="1.5" />
+      <rect x="3.5" y="10" width="3" height="14" fill="white" stroke="black" stroke-width="1.3" />
     </g>
-    <text x="14" y="20" font-size="16" font-weight="bold" fill="purple" stroke="purple"> 60&#8457; [T6] </text>
+    <text x="14" y="20" font-size="16" font-weight="bold" fill="lime"> 60&#8457; [T6] </text>
   </g>
 </svg>
 
