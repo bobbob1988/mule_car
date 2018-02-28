@@ -30,11 +30,11 @@ class BatteryCell extends Component {
 
     return (
         <g>
-          <rect width="100" height="50" rx="5" ry="5" x={x} y={y} fill={color} stroke="lightgrey" strokeWidth="2" />
+          <rect width="130" height="155" rx="5" ry="5" x={x} y={y} fill={color} stroke="lightgrey" strokeWidth="2" />
           <text x={x+39} y={text_y} fill="darkslateblue" fontFamily="Agency FB" fontSize="20">
             {volt}v
           </text>
-          <text x={id_x} y={text_y+17} fill="darkslateblue" fontFamily="Arial" fontSize="12">
+          <text x={id_x} y={text_y+40} fill="darkslateblue" fontFamily="Arial" fontSize="12">
             [{id}]
           </text>
         </g>

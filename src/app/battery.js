@@ -39,7 +39,7 @@ class Battery extends Component {
     if (!this.state || !this.state.batteries ){
       return null;
     }
-    var num_x = 8;
+    var num_x = 6;
     var offset_x = 10;
     var offset_y = 10;
     return (
@@ -49,7 +49,7 @@ class Battery extends Component {
           <rect x="855" y="220" width="20" height="50" rx="3" ry="3" fill="grey" />
           { this.state.batteries.map((battery, i) =>
           <BatteryCell batteryVolt={battery["voltage"]} key={"b"+i} id={battery["battery_id"]}
-           x={offset_x + 105*(i%num_x)} y={offset_y + 55*Math.floor(i/num_x)} />
+           x={offset_x + 138*(i%num_x)} y={offset_y + 168*Math.floor(i/num_x)} />
         )}
       </svg>
     );
