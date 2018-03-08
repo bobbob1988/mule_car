@@ -36,10 +36,10 @@ export default class Battery extends Component {
     .then(json => {
       if (json["GET"]){
         var data = JSON.parse(json["GET"]);
-        self.setState({frontphA: `${data.frontphA}`, frontphB: `${data.frontphB}`, frontphC: `${data.frontphC}`,
-        frontcoolant:`${data.frontcoolant}`, frontwinding1: `${data.frontwinding1}`, frontwinding2: `${data.frontwinding2}`,
-        rearphA: `${data.rearphA}`, rearphB: `${data.rearphB}`, rearphC: `${data.rearphC}`,
-        rearcoolant:`${data.rearcoolant}`, rearwinding1: `${data.rearwinding1}`, rearwinding2: `${data.rearwinding2}`
+        self.setState({frontphA: `${data.frontMotorSinkPhaseATemp}`, frontphB: `${data.frontMotorSinkPhaseBTemp}`, frontphC: `${data.frontMotorSinkPhaseCTemp}`,
+        frontcoolant:`${data.frontMotorCoolantTemp}`, frontwinding1: `${data.frontMotorWindingTemp1}`, frontwinding2: `${data.frontMotorWindingTemp2}`,
+        rearphA: `${data.rearMotorSinkPhaseATemp}`, rearphB: `${data.rearMotorSinkPhaseBTemp}`, rearphC: `${data.rearMotorSinkPhaseCTemp}`,
+        rearcoolant:`${data.rearMotorCoolantTemp}`, rearwinding1: `${data.rearMotorCoolantTemp}`, rearwinding2: `${data.rearMotorWindingTemp2}`
       });
       } else {
         console.log("no data");

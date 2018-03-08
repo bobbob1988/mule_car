@@ -19,26 +19,27 @@ def setValue():
        {'battery_mile': 500, 'battery_percentage': '37%'}
 	]
 
-	batteryData = {'battery_mile': 500, 'battery_percentage': '37%'}
-
-	json_data = json.dumps(batteryData)
-	r.set('battery_status', json_data)
 
 def setTepValue():
 	threading.Timer(10, setTepValue).start()
 
 	r = redis.StrictRedis(host='10.21.51.156', port=6379, db=0)
 
-	temperature = {'frontphA': random.randint(-40, 20), 'frontphB': random.randint(-40, 216),
-                  'frontphC': random.randint(-40, 216), 'frontcoolant': random.randint(-40, 100),
-                  'frontwinding1': random.randint(150, 216), 'frontwinding2': random.randint(-40, 216),
-                  'rearphA': random.randint(-40, 20), 'rearphB': random.randint(-40, 216),
-                  'rearphC': random.randint(-40, 216), 'rearcoolant': random.randint(-40, 100),
-                  'rearwinding1': random.randint(150, 216), 'rearwinding2': random.randint(-40, 216)
+	temperature = {'frontMotorSinkPhaseATemp': random.randint(-40, 20), 'frontMotorSinkPhaseBTemp': random.randint(-40, 216),
+                  'frontMotorSinkPhaseCTemp': random.randint(-40, 216), 'frontMotorCoolantTemp': random.randint(-40, 100),
+                  'frontMotorWindingTemp1': random.randint(150, 216), 'frontMotorWindingTemp2': random.randint(-40, 216),
+                  'rearMotorSinkPhaseATemp': random.randint(-40, 20), 'rearMotorSinkPhaseBTemp': random.randint(-40, 216),
+                  'rearMotorSinkPhaseCTemp': random.randint(-40, 216), 'rearMotorCoolantTemp': random.randint(-40, 100),
+                  'rearMotorWindingTemp1': random.randint(150, 216), 'rearMotorWindingTemp2': random.randint(-40, 216)
                   }
 	json_data_temperature = json.dumps(temperature)
 	r.set('thermal', json_data_temperature)
 
+
+	batteryData = {'battery_mile': 500, 'battery_percentage': random.randint(0, 100)}
+
+	json_data = json.dumps(batteryData)
+	r.set('battery_status', json_data)
 
 setValue()
 setTepValue()
