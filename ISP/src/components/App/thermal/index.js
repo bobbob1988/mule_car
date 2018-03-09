@@ -25,21 +25,35 @@ export default class Battery extends Component {
       };
     this.subscription = null;
     this.updateInterval = 100;
-    this.fetchUrl = "http://10.21.51.156:7379/GET/thermal";
+    this.frontMotorfetchUrl = "http://10.21.51.156:7379/GET/FrontMotorData";
+    this.rearMotorfetchUrl = "http://10.21.51.156:7379/GET/RearMotorData";
   }
 
   updateStatus() {
     const self = this;
-    fetch(self.fetchUrl)
+    fetch(self.frontMotorfetchUrl)
     .catch(err => console.log(err))
     .then(res => res.json())
     .then(json => {
       if (json["GET"]){
         var data = JSON.parse(json["GET"]);
-        self.setState({frontphA: `${data.frontMotorSinkPhaseATemp}`, frontphB: `${data.frontMotorSinkPhaseBTemp}`, frontphC: `${data.frontMotorSinkPhaseCTemp}`,
-        frontcoolant:`${data.frontMotorCoolantTemp}`, frontwinding1: `${data.frontMotorWindingTemp1}`, frontwinding2: `${data.frontMotorWindingTemp2}`,
-        rearphA: `${data.rearMotorSinkPhaseATemp}`, rearphB: `${data.rearMotorSinkPhaseBTemp}`, rearphC: `${data.rearMotorSinkPhaseCTemp}`,
-        rearcoolant:`${data.rearMotorCoolantTemp}`, rearwinding1: `${data.rearMotorCoolantTemp}`, rearwinding2: `${data.rearMotorWindingTemp2}`
+        self.setState({frontphA: `${data.frontMotorTemperature.frontMotorSinkPhaseATemp}`, frontphB: `${data.frontMotorTemperature.frontMotorSinkPhaseBTemp}`, frontphC: `${data.frontMotorTemperature.frontMotorSinkPhaseCTemp}`,
+        frontcoolant:`${data.frontMotorTemperature.frontMotorCoolantTemp}`, frontwinding1: `${data.frontMotorTemperature.frontMotorWindingTemp1}`, frontwinding2: `${data.frontMotorTemperature.frontMotorWindingTemp2}`
+      });
+      } else {
+        console.log("no data");
+      }
+    });
+
+    fetch(self.rearMotorfetchUrl)
+    .catch(err => console.log(err))
+    .then(res => res.json())
+    .then(json => {
+      if (json["GET"]){
+        var data = JSON.parse(json["GET"]);
+        self.setState({
+        rearphA: `${data.rearMotorTemperature.rearMotorSinkPhaseATemp}`, rearphB: `${data.rearMotorTemperature.rearMotorSinkPhaseBTemp}`, rearphC: `${data.rearMotorTemperature.rearMotorSinkPhaseCTemp}`,
+        rearcoolant:`${data.rearMotorTemperature.rearMotorCoolantTemp}`, rearwinding1: `${data.rearMotorTemperature.rearMotorWindingTemp1}`, rearwinding2: `${data.rearMotorTemperature.rearMotorWindingTemp2}`
       });
       } else {
         console.log("no data");
@@ -1218,7 +1232,7 @@ export default class Battery extends Component {
             return colors[0];
         }
     })
-    .text(function(d){ return value.frontwinding1 + ' ℉' })
+    .text(function(d){ return value.frontwinding1 + ' ℃' })
 
     this.winding1FrontText.transition()
     .attr('fill',function(d){
@@ -1241,7 +1255,7 @@ export default class Battery extends Component {
             return colors[0];
         }
     })
-    .text(function(d){ return value.frontwinding2 + ' ℉' });
+    .text(function(d){ return value.frontwinding2 + ' ℃' });
 
     this.winding2FrontText.transition()
     .attr('fill',function(d){
@@ -1271,7 +1285,7 @@ export default class Battery extends Component {
             return colors[0];
         }
     })
-    .text(function(d){ return value.frontphA + ' ℉' })
+    .text(function(d){ return value.frontphA + ' ℃' })
 
     this.phAFrontText.transition()
     .attr('fill',function(d){
@@ -1294,7 +1308,7 @@ export default class Battery extends Component {
             return colors[0];
         }
     })
-    .text(function(d){ return value.frontphB + ' ℉' });
+    .text(function(d){ return value.frontphB + ' ℃' });
 
     this.phBFrontText.transition()
     .attr('fill',function(d){
@@ -1317,7 +1331,7 @@ export default class Battery extends Component {
             return colors[0];
         }
     })
-    .text(function(d){ return value.frontphC + ' ℉' });
+    .text(function(d){ return value.frontphC + ' ℃' });
 
     this.phCFrontText.transition()
     .attr('fill',function(d){
@@ -1340,7 +1354,7 @@ export default class Battery extends Component {
             return colors[0];
         }
     })
-    .text(function(d){ return value.frontcoolant + ' ℉' });
+    .text(function(d){ return value.frontcoolant + ' ℃' });
 
     this.coolantFrontText.transition()
     .attr('fill',function(d){
@@ -1363,7 +1377,7 @@ export default class Battery extends Component {
             return colors[0];
         }
     })
-    .text(function(d){ return value.rearwinding1 + ' ℉' })
+    .text(function(d){ return value.rearwinding1 + ' ℃' })
 
     this.winding1RearText.transition()
     .attr('fill',function(d){
@@ -1386,7 +1400,7 @@ export default class Battery extends Component {
             return colors[0];
         }
     })
-    .text(function(d){ return value.rearwinding2 + ' ℉' });
+    .text(function(d){ return value.rearwinding2 + ' ℃' });
 
     this.winding2RearText.transition()
     .attr('fill',function(d){
@@ -1409,7 +1423,7 @@ export default class Battery extends Component {
             return colors[0];
         }
     })
-    .text(function(d){ return value.rearphA + ' ℉' })
+    .text(function(d){ return value.rearphA + ' ℃' })
 
     this.phARearText.transition()
     .attr('fill',function(d){
@@ -1432,7 +1446,7 @@ export default class Battery extends Component {
             return colors[0];
         }
     })
-    .text(function(d){ return value.rearphB + ' ℉' });
+    .text(function(d){ return value.rearphB + ' ℃' });
 
     this.phBRearText.transition()
     .attr('fill',function(d){
@@ -1455,7 +1469,7 @@ export default class Battery extends Component {
             return colors[0];
         }
     })
-    .text(function(d){ return value.rearphC + ' ℉' });
+    .text(function(d){ return value.rearphC + ' ℃' });
 
     this.phCRearText.transition()
     .attr('fill',function(d){
@@ -1478,7 +1492,7 @@ export default class Battery extends Component {
             return colors[0];
         }
     })
-    .text(function(d){ return value.rearcoolant + ' ℉' });
+    .text(function(d){ return value.rearcoolant + ' ℃' });
 
     this.coolantRearText.transition()
     .attr('fill',function(d){

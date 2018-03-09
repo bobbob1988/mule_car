@@ -2,6 +2,7 @@ import redis
 import json
 import threading
 import random
+import time
 
 def setValue():
 	threading.Timer(1, setValue).start()
@@ -41,7 +42,23 @@ def setTepValue():
 	json_data = json.dumps(batteryData)
 	r.set('battery_status', json_data)
 
+def setFlagValue():
+	threading.Timer(1, setFlagValue).start()
+
+	r = redis.StrictRedis(host='10.21.51.156', port=6379, db=0)
+	flag = {'flag': 0}
+	data = json.dumps(flag)
+	r.set('flag', data)
+
+	time.sleep(10)
+
+	flag1 = {'flag': 1}
+	data = json.dumps(flag1)
+	r.set('flag', data)
+
+
 setValue()
 setTepValue()
+setFlagValue()
 
 

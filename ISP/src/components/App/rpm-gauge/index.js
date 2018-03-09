@@ -403,7 +403,7 @@ export default class RpmGauge extends Component {
 
     // Speed unit text
     this.speedUnitText = tg.append('text')
-    .text('mph')
+    .text('km/h')
     .attr('font-size', '15')
     .attr('font-family', 'Arial')
     .attr('text-anchor', 'middle')

@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { line, select, range } from 'd3';
 
 
-import battery from '../../../assets/images/full-battery.svg';
+import full_battery from '../../../assets/images/full-battery.svg';
+import empty_battery from '../../../assets/images/empty-battery.svg';
+import low_battery from '../../../assets/images/low-battery.svg';
+import half_battery from '../../../assets/images/half-battery.svg';
+import almost_full_battery from '../../../assets/images/battery-almost-full.svg';
+import charging_battery from '../../../assets/images/charging-battery.svg';
 
 export default class InfoTop extends Component {
   baseline = null;
@@ -51,8 +56,8 @@ export default class InfoTop extends Component {
     .style('position', 'relative')
     .style('z-index', '10');
 
-    bg.append('image')
-      .attr('xlink:href', battery)
+    this.batteryImage = bg.append('image')
+      .attr('xlink:href', charging_battery)
       .attr('x', '35%')
       .attr('y', '-27%')
       .attr('width', '70')
@@ -93,7 +98,23 @@ export default class InfoTop extends Component {
     var mileage = value.battery_status;
     var percentage = value.battery_percentage; 
     this.batteryNumber.transition()
-    .text(`${mileage}` + ' mi  ' + `${percentage}`); 
+    .text(`${mileage}` + ' mi  ' + `${percentage}` + '%');
+
+    // this.batteryImage.transition()
+    // .attr('xlink:href', function(d){
+    //   if(percentage === 0){
+    //     return empty_battery; 
+    //   }else if(percentage > 0 && percentage <= 50){
+    //     return low_battery;
+    //   }else if(percentage > 50 && percentage <= 75){
+    //     return half_battery;
+    //   }else if(percentage > 75 && percentage < 100){
+    //     return almost_full_battery;
+    //   }else if(percentage === 100){
+    //     return full_battery;
+    //   }
+    // })
+
   }
 
   render() {

@@ -29,7 +29,7 @@
       this.fetchUrl = "http://10.21.51.156:7379/GET/speed";
       this.fetchUrlPower = "http://10.21.51.156:7379/GET/power";
       this.fetchGear = "http://10.21.51.156:7379/GET/gear";
-      this.fetchBatteryStatus = "http://10.21.51.156:7379/GET/battery_status";
+      this.fetchBatteryStatus = "http://10.21.51.156:7379/GET/StateOfCharge";
 
     }
     
@@ -79,8 +79,8 @@
         if (json["GET"]){
           var data = JSON.parse(json["GET"]);
           var mile = data.battery_mile;
-          self.setState({battery_percentage: `${data.battery_percentage}`,
-           battery_status: `${data.battery_mile}`});
+          self.setState({battery_percentage: `${data.stateOfCharge}`,
+           battery_status: 0});
         } else {
           console.log("no data");
         }
