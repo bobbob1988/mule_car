@@ -11,12 +11,15 @@ class BatteryModule extends Component {
     this.setState({data: this.props.data});
   }
 
-  renderVolts(){
-    var cellVolts = this.state.data.cells.map(function(entry, i){
-      return(<text x="0" y={15*i} fill="darkslateblue" fontFamily="Agency FB" fontSize="11" key={"k:"+i} >
-               v{i+1}: {entry.volt}
+  renderVolts(cells){
+    var cellVolts = [];
+    for (var key in cells){
+      var i = parseInt(key)-1;
+      var volt = cells[key];
+      cellVolts.push(<text x="0" y={15*i} fill="darkslateblue" fontFamily="Agency FB" fontSize="11" key={"k:"+i} >
+               v{i+1}: {volt}
              </text>);
-    })
+    }
     return (
       <g transform="translate(2,20)">
         {cellVolts}
@@ -24,12 +27,15 @@ class BatteryModule extends Component {
     );
   }
 
-  renderTemps(){
-    var cellTemps = this.state.data.thermometers.map(function(entry, i){
-      return(<text x="0" y={15*i} fill="darkslateblue" fontFamily="Agency FB" fontSize="11" key={"k:"+i} >
-               t{i+1}: {entry.temp}
+  renderTemps(temps){
+    var cellTemps = [];
+    for (var key in temps){
+      var i = parseInt(key)-1;
+      var temp = temps[key];
+      cellTemps.push(<text x="0" y={15*i} fill="darkslateblue" fontFamily="Agency FB" fontSize="11" key={"k:"+i} >
+               t{i+1}: {temp}
              </text>);
-    })
+    }
     var x_offset = this.props.conf.w - 40;
     return (
       <g transform={"translate(" + x_offset + ", 20)"}>
@@ -39,29 +45,44 @@ class BatteryModule extends Component {
   }
 
   render() {
-    var data = this.state.data;
+    var data = JSON.parse(this.state.data);
+    var cells = {}
+    var temps = {}
+    for(var key in data){
+      if (key.startsWith("cell")){
+        var cellId = parseInt(key.replace("cellGroup", "").replace("Volt", ""));
+        cells[cellId] = parseFloat(data[key]);
+      }
+      else if (key.startsWith("temp")){
+        var tempId = parseInt(key.replace("tempSensor", ""));
+        temps[tempId] = parseFloat(data[key]);
+      }
+    }
+
     var mid = this.props.mid;
-    var min_volt = data.cells.map(x => x.volt).reduce((min_volt, num) => Math.min(min_volt, num));
-    var max_volt = data.cells.map(x => x.volt).reduce((max_volt, num) => Math.max(max_volt, num));
-    var avg_volt = (data.cells.map(x => x.volt).reduce((total, num) => total+num) / data.cells.length).toFixed(3);
-    var min_temp = data.thermometers.map(x => x.temp).reduce((min_temp, num) => Math.min(min_temp, num));
-    var max_temp = data.thermometers.map(x => x.temp).reduce((max_temp, num) => Math.max(max_temp, num));
-    var avg_temp = (data.thermometers.map(x => x.temp).reduce((total, num) => total+num) / data.cells.length).toFixed(3);
+    var min_volt = Object.values(cells).reduce((min_volt, num) => Math.min(min_volt, num));
+    var max_volt = Object.values(cells).reduce((max_volt, num) => Math.max(max_volt, num));
+    var avg_volt = (Object.values(cells).reduce((total, num) => total+num) / Object.keys(cells).length).toFixed(3);
+
+    var min_temp = Object.values(temps).reduce((min_temp, num) => Math.min(min_temp, num));
+    var max_temp = Object.values(temps).reduce((max_temp, num) => Math.max(max_temp, num));
+    var avg_temp = (Object.values(temps).reduce((total, num) => total+num) / Object.keys(temps).length).toFixed(3);
+
     var x = this.props.conf.x;
     var y = this.props.conf.y;
     var text_y = y + 33
     var color = "yellowgreen";
-    if (avg_volt < 4.0){
+    if (avg_volt < 3.0){
       color = "tomato";
-    } else if (avg_volt < 4.2){
+    } else if (avg_volt < 3.5){
       color = "khaki";
     }
 
     return (
         <g transform={"translate(" + x + ", " + y + ")"}>
           <rect width={this.props.conf.w} height={this.props.conf.h} rx="5" ry="5" x="0" y="0" fill={color} stroke="lightgrey" strokeWidth="2" />
-          {this.renderVolts()}
-          {this.renderTemps()}
+          {this.renderVolts(cells)}
+          {this.renderTemps(temps)}
           // average voltage
           <g transform={"translate(" + (this.props.conf.w-40) + ", 130)"}>
             <text x="0" y="0" fill="darkslateblue" fontFamily="Agency FB" fontSize="11">

@@ -7,7 +7,7 @@ class Battery extends Component {
   constructor() {
     super();
     this.updateInterval = 5000;
-    this.fetchUrlPrefix = "https://10.21.51.252/redis/GET/battery_module_";
+    this.fetchUrlPrefix = "http://10.21.51.156:7379/HGETALL/BatteryModuleInfo";
     var battery_module_ids = ["13", "12", "11", "10", "9", "8", "7",
                                     "1",  "2",  "3",  "4", "5", "6"];
     this.battery_module_ids = battery_module_ids;
@@ -37,19 +37,9 @@ class Battery extends Component {
 
   updateBatteryStatus() {
     const self = this;
-    var battery_states = new Map();
-    Promise.all(this.battery_module_ids.map(id => {
-      return fetch(self.fetchUrlPrefix + id);
-    })).then(function(values){
-      Promise.all(values.map(res => {
-        return res.json();
-      })).then(function(jsons){
-        jsons.forEach(function(json, id){
-          var data = JSON.parse(json["GET"]);
-          battery_states.set(id, data);
-        });;
-        self.setState({batteries: battery_states});
-      });
+    fetch(self.fetchUrlPrefix).then(res => res.text()).then(body => {
+      var json = JSON.parse(body);
+      self.setState({batteries: json["HGETALL"]});
     });
   }
 
@@ -66,12 +56,15 @@ class Battery extends Component {
   renderBatteryModules() {
     var self = this;
     var modules = [];
-    this.state.batteries.forEach(function(data, key){
-      var mid = self.battery_module_ids[key];
-      var conf = self.battery_module_conf[mid];
+    for (var key in self.state.batteries){
+      //this.state.batteries.forEach(function(data, key){
+      var data = self.state.batteries[key];
+      var mid = parseInt(key) + 1;
+      //var mid = self.battery_module_ids[key];
+      var conf = self.battery_module_conf[mid.toString()];
       modules.push
         (<BatteryModule mid={mid} data={data} conf={conf} key={"m:"+mid} />);
-    });
+    }
     return modules;
   }
 
@@ -79,7 +72,6 @@ class Battery extends Component {
     if (!this.state || !this.state.batteries ){
       return null;
     }
-    console.log("RENDER: " + this.state.batteries.size);
     return (
       <div><svg viewBox="0 0 800 600">
         <g>
