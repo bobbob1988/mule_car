@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import fetch from 'node-fetch';
+import BatteryCell from './battery_cell';
 import * as d3 from "d3";
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
 import { scaleSqrt, scaleThreshold, select, arc, scaleLinear, interpolate, scaleLog, line, polyline, range, easeCubicInOut, easeCircle} from 'd3';
@@ -36,10 +37,10 @@ export default class Battery extends Component {
     .then(json => {
       if (json["GET"]){
         var data = JSON.parse(json["GET"]);
-        self.setState({frontphA: `${data.frontMotorSinkPhaseATemp}`, frontphB: `${data.frontMotorSinkPhaseBTemp}`, frontphC: `${data.frontMotorSinkPhaseCTemp}`,
-        frontcoolant:`${data.frontMotorCoolantTemp}`, frontwinding1: `${data.frontMotorWindingTemp1}`, frontwinding2: `${data.frontMotorWindingTemp2}`,
-        rearphA: `${data.rearMotorSinkPhaseATemp}`, rearphB: `${data.rearMotorSinkPhaseBTemp}`, rearphC: `${data.rearMotorSinkPhaseCTemp}`,
-        rearcoolant:`${data.rearMotorCoolantTemp}`, rearwinding1: `${data.rearMotorCoolantTemp}`, rearwinding2: `${data.rearMotorWindingTemp2}`
+        self.setState({frontphA: `${data.frontphA}`, frontphB: `${data.frontphB}`, frontphC: `${data.frontphC}`,
+        frontcoolant:`${data.frontcoolant}`, frontwinding1: `${data.frontwinding1}`, frontwinding2: `${data.frontwinding2}`,
+        rearphA: `${data.rearphA}`, rearphB: `${data.rearphB}`, rearphC: `${data.rearphC}`,
+        rearcoolant:`${data.rearcoolant}`, rearwinding1: `${data.rearwinding1}`, rearwinding2: `${data.rearwinding2}`
       });
       } else {
         console.log("no data");
@@ -99,13 +100,29 @@ export default class Battery extends Component {
     .attr("x", 0)
     .attr("y", 0)
     .attr('class', 'rect')
-    .attr("width", svgWidth /30)
+    .attr("width", svgWidth /60)
     .attr("height", svgHeight /6)
     .attr('fill', 'url(#thermal_gradient1)' )
     .attr('stroke', colors[9] )
     .attr('stroke-linecap', 'round')
     .attr('stroke-width', '3')
     .attr('z-index', '2')
+    .on('mouseenter',function() {
+     select(this)
+     .transition()
+     .duration(500)
+     .attr("width", svgWidth /30)
+     .attr("height", svgHeight /3)
+     .attr('opacity', 0.5)
+   })
+    .on('mouseleave',function () {
+     select(this)
+     .transition()
+     .duration(500)
+     .attr("width", svgWidth /60)
+     .attr("height", svgHeight /6)
+     .attr('opacity', 0.9)
+   });
 
     this.radiatorText = g.append('text')
     .text('Radiator')
@@ -115,10 +132,9 @@ export default class Battery extends Component {
     .attr('opacity', '0.9')
     .attr('fill', colors[0])
     .attr('x', -svgHeight /12)
-    .attr('y', '4.5%')
+    .attr('y', '0')
     .attr('transform', `rotate(${-90})`)
     .style('position', 'absolute')
-    .attr('font-weight', 'bold')
     .style('z-index', '10');
 
     // const pointerHeadLength = 20 * 1.02;
@@ -307,7 +323,6 @@ export default class Battery extends Component {
     .attr('x', '7.5%')
     .attr('y', '12%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -321,7 +336,6 @@ export default class Battery extends Component {
     .attr('x', '7.5%')
     .attr('y', '7%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -347,7 +361,6 @@ export default class Battery extends Component {
     .attr('x', '17.5%')
     .attr('y', '12%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -361,7 +374,6 @@ export default class Battery extends Component {
     .attr('x', '17.5%')
     .attr('y', '7%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -456,7 +468,6 @@ export default class Battery extends Component {
     .attr('x', '5%')
     .attr('y', '35.5%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -470,7 +481,6 @@ export default class Battery extends Component {
     .attr('x', '5%')
     .attr('y', '30%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -496,7 +506,6 @@ export default class Battery extends Component {
     .attr('x', '10%')
     .attr('y', '35.5%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -510,7 +519,6 @@ export default class Battery extends Component {
     .attr('x', '10%')
     .attr('y', '30%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -537,7 +545,6 @@ export default class Battery extends Component {
     .attr('x', '15%')
     .attr('y', '35.5%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -551,7 +558,6 @@ export default class Battery extends Component {
     .attr('x', '15%')
     .attr('y', '30%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -577,7 +583,6 @@ export default class Battery extends Component {
     .attr('x', '20%')
     .attr('y', '35.5%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -591,7 +596,6 @@ export default class Battery extends Component {
     .attr('x', '20%')
     .attr('y', '30%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -712,7 +716,6 @@ export default class Battery extends Component {
     .attr('x', '7.5%')
     .attr('y', '12%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -726,7 +729,6 @@ export default class Battery extends Component {
     .attr('x', '7.5%')
     .attr('y', '7%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -752,7 +754,6 @@ export default class Battery extends Component {
     .attr('x', '17.5%')
     .attr('y', '12%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -766,7 +767,6 @@ export default class Battery extends Component {
     .attr('x', '17.5%')
     .attr('y', '7%')
     .attr('transform', `rotate(${0})`)
-    .attr('font-weight', 'bold')
     .style('position', 'absolute')
     .style('z-index', '10');
 
@@ -861,7 +861,6 @@ export default class Battery extends Component {
     .attr('y', '35.5%')
     .attr('transform', `rotate(${0})`)
     .style('position', 'absolute')
-    .attr('font-weight', 'bold')
     .style('z-index', '10');
 
     this.phARearTemperatureText = rg.append('text')
@@ -875,7 +874,6 @@ export default class Battery extends Component {
     .attr('y', '30%')
     .attr('transform', `rotate(${0})`)
     .style('position', 'absolute')
-    .attr('font-weight', 'bold')
     .style('z-index', '10');
 
     this.phBRearBox = rg.append("rect")
@@ -901,7 +899,6 @@ export default class Battery extends Component {
     .attr('y', '35.5%')
     .attr('transform', `rotate(${0})`)
     .style('position', 'absolute')
-    .attr('font-weight', 'bold')
     .style('z-index', '10');
 
     this.phBRearTemperatureText = rg.append('text')
@@ -915,7 +912,6 @@ export default class Battery extends Component {
     .attr('y', '30%')
     .attr('transform', `rotate(${0})`)
     .style('position', 'absolute')
-    .attr('font-weight', 'bold')
     .style('z-index', '10');
 
     this.phCRearBox = rg.append("rect")
@@ -941,7 +937,6 @@ export default class Battery extends Component {
     .attr('y', '35.5%')
     .attr('transform', `rotate(${0})`)
     .style('position', 'absolute')
-    .attr('font-weight', 'bold')
     .style('z-index', '10');
 
     this.phCRearTemperatureText = rg.append('text')
@@ -955,7 +950,6 @@ export default class Battery extends Component {
     .attr('y', '30%')
     .attr('transform', `rotate(${0})`)
     .style('position', 'absolute')
-    .attr('font-weight', 'bold')
     .style('z-index', '10');
 
     this.coolantRearBox = rg.append("rect")
@@ -981,7 +975,6 @@ export default class Battery extends Component {
     .attr('y', '35.5%')
     .attr('transform', `rotate(${0})`)
     .style('position', 'absolute')
-    .attr('font-weight', 'bold')
     .style('z-index', '10');
 
     this.coolantRearTemperatureText = rg.append('text')
@@ -995,7 +988,6 @@ export default class Battery extends Component {
     .attr('y', '30%')
     .attr('transform', `rotate(${0})`)
     .style('position', 'absolute')
-    .attr('font-weight', 'bold')
     .style('z-index', '10');
 
 
@@ -1162,8 +1154,8 @@ export default class Battery extends Component {
     .attr('text-anchor', 'middle')
     .attr('opacity', '0.9')
     .attr('fill', colors[0])
-    .attr('x', '-10%')
-    .attr('y', '11%')
+    .attr('x', '15%')
+    .attr('y', '6%')
     .attr('transform', `rotate(${-90})`)
     .style('position', 'absolute')
     .attr('font-weight', 'bold')
@@ -1173,7 +1165,7 @@ export default class Battery extends Component {
     //The charger area
     const bg = svg.append('g').attr('transform', `translate(${svgWidth/2.5},${svgHeight/1.1})`);
 
-    this.chargerRect = bg.append("rect")
+    this.reservoirRect = bg.append("rect")
     .attr("x", 0)
     .attr("y", 0)
     .attr('class', 'rect')
@@ -1185,309 +1177,97 @@ export default class Battery extends Component {
     .attr('stroke-width', '3')
     .attr('z-index', '2');
 
-    this.chargerText = bg.append('text')
-    .text('Charger')
-    .attr('font-size', '20')
-    .attr('font-family', 'Agency FB')
-    .attr('text-anchor', 'middle')
-    .attr('opacity', '0.9')
-    .attr('fill', colors[0])
-    .attr('x', '5%')
-    .attr('y', '5%')
-    .attr('transform', `rotate(${0})`)
-    .style('position', 'absolute')
-    .attr('font-weight', 'bold')
-    .style('z-index', '10');
+
 
   }
 
   setValue(value, duration) {
 
-    
-    const colors = ['#FFFFFF', '#0A0A0A',"#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00", '#212529'];
     const tempColor = ["#313695","#4575b4","#74add1","#abd9e9","#fee090","#fdae61","#f46d43","#d73027","#a50026"];
     var colorScale = d3.scaleQuantile()
-    .domain([-40, 10, 216])
+    .domain([-40, 0, 216])
     .range(tempColor);
 
     this.winding1FrontTemperatureText.transition()
-    .attr('fill',function(d){
-        if(value.frontwinding1 <= 90 && value.frontwinding1 >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .text(function(d){ return value.frontwinding1 + ' ℉' })
-
-    this.winding1FrontText.transition()
-    .attr('fill',function(d){
-        if(value.frontwinding1 <= 90 && value.frontwinding1 >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
 
     this.winding1FrontBox.transition()
     .duration(500)
+    .attr('opacity', '0.1')
     .attr('fill',colorScale(value.frontwinding1));
 
     this.winding2FrontTemperatureText.transition()
-    .attr('fill',function(d){
-        if(value.frontwinding2 <= 90 && value.frontwinding2 >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .text(function(d){ return value.frontwinding2 + ' ℉' });
-
-    this.winding2FrontText.transition()
-    .attr('fill',function(d){
-        if(value.frontwinding2 <= 90 && value.frontwinding2 >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
 
     this.winding2FrontBox.transition()
     .duration(500)
-    .attr('fill',function(d){
-        if(value.frontwinding2 <= 90 && value.frontwinding2 >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .attr('fill',colorScale(value.frontwinding2));
 
     this.phAFrontTemperatureText.transition()
-    .attr('fill',function(d){
-        if(value.frontphA <= 90 && value.frontphA >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .text(function(d){ return value.frontphA + ' ℉' })
 
-    this.phAFrontText.transition()
-    .attr('fill',function(d){
-        if(value.frontphA <= 90 && value.frontphA >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
-    
     this.phAFrontBox.transition()
     .duration(500)
     .attr('fill',colorScale(value.frontphA));
 
     this.phBFrontTemperatureText.transition()
-    .attr('fill',function(d){
-        if(value.frontphB <= 90 && value.frontphB >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .text(function(d){ return value.frontphB + ' ℉' });
-
-    this.phBFrontText.transition()
-    .attr('fill',function(d){
-        if(value.frontphB <= 90 && value.frontphB >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
 
     this.phBFrontBox.transition()
     .duration(500)
     .attr('fill',colorScale(value.frontphB));
 
     this.phCFrontTemperatureText.transition()
-    .attr('fill',function(d){
-        if(value.frontphC <= 90 && value.frontphC >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .text(function(d){ return value.frontphC + ' ℉' });
-
-    this.phCFrontText.transition()
-    .attr('fill',function(d){
-        if(value.frontphC <= 90 && value.frontphC >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
 
     this.phCFrontBox.transition()
     .duration(500)
     .attr('fill',colorScale(value.frontphC));
 
     this.coolantFrontTemperatureText.transition()
-    .attr('fill',function(d){
-        if(value.frontcoolant <= 90 && value.frontcoolant >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .text(function(d){ return value.frontcoolant + ' ℉' });
-
-    this.coolantFrontText.transition()
-    .attr('fill',function(d){
-        if(value.frontcoolant <= 90 && value.frontcoolant >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
 
     this.coolantFrontBox.transition()
     .duration(500)
     .attr('fill',colorScale(value.frontcoolant));
 
     this.winding1RearTemperatureText.transition()
-    .attr('fill',function(d){
-        if(value.rearwinding1 <= 90 && value.rearwinding1 >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .text(function(d){ return value.rearwinding1 + ' ℉' })
-
-    this.winding1RearText.transition()
-    .attr('fill',function(d){
-        if(value.rearwinding1 <= 90 && value.rearwinding1 >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
 
     this.winding1RearBox.transition()
     .duration(500)
     .attr('fill',colorScale(value.rearwinding1));
 
     this.winding2RearTemperatureText.transition()
-    .attr('fill',function(d){
-        if(value.rearwinding2 <= 90 && value.rearwinding2 >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .text(function(d){ return value.rearwinding2 + ' ℉' });
-
-    this.winding2RearText.transition()
-    .attr('fill',function(d){
-        if(value.rearwinding2 <= 90 && value.rearwinding2 >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
 
     this.winding2RearBox.transition()
     .duration(500)
     .attr('fill',colorScale(value.rearwinding2));
 
     this.phARearTemperatureText.transition()
-    .attr('fill',function(d){
-        if(value.rearphA <= 90 && value.rearphA >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .text(function(d){ return value.rearphA + ' ℉' })
-
-    this.phARearText.transition()
-    .attr('fill',function(d){
-        if(value.rearphA <= 90 && value.rearphA >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
 
     this.phARearBox.transition()
     .duration(500)
     .attr('fill',colorScale(value.rearphA));
 
     this.phBRearTemperatureText.transition()
-    .attr('fill',function(d){
-        if(value.rearphB <= 90 && value.rearphB >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .text(function(d){ return value.rearphB + ' ℉' });
-
-    this.phBRearText.transition()
-    .attr('fill',function(d){
-        if(value.rearphB <= 90 && value.rearphB >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
 
     this.phBRearBox.transition()
     .duration(500)
     .attr('fill',colorScale(value.rearphB));
 
     this.phCRearTemperatureText.transition()
-    .attr('fill',function(d){
-        if(value.rearphC <= 90 && value.rearphC >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .text(function(d){ return value.rearphC + ' ℉' });
-
-    this.phCRearText.transition()
-    .attr('fill',function(d){
-        if(value.rearphC <= 90 && value.rearphC >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
 
     this.phCRearBox.transition()
     .duration(500)
     .attr('fill',colorScale(value.rearphC));
 
     this.coolantRearTemperatureText.transition()
-    .attr('fill',function(d){
-        if(value.rearcoolant <= 90 && value.rearcoolant >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
     .text(function(d){ return value.rearcoolant + ' ℉' });
-
-    this.coolantRearText.transition()
-    .attr('fill',function(d){
-        if(value.rearcoolant <= 90 && value.rearcoolant >= -20){
-            return colors[1];
-        }else{
-            return colors[0];
-        }
-    })
 
     this.coolantRearBox.transition()
     .duration(500)

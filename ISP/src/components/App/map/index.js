@@ -4,10 +4,10 @@ import Iframe from 'react-iframe';
 const MapIFrame = () => ( 
 <Iframe url="../map/map.html"
             position="absolute"
-            width="100%"
+            width="98.5%"
             id="myId"
             className="myClassname"
-            height="100%"
+            height="99%"
             allowFullScreen/>
 )
 

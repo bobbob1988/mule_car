@@ -18,16 +18,22 @@
       this.state = {
         power: 0,
         speed: 0,
+        gear: 'P',
+        battery_percentage: '',
+        battery_status: 0,
         acc: false,
         negative: false,
       };
       this.subscription = null;
-      this.updateInterval = 10;
-      this.fetchUrl = "https://10.21.51.252/redis/GET/speed";
-      this.fetchUrlPower = "https://10.21.51.252/redis/GET/power";
+      this.updateInterval = 100;
+      this.fetchUrl = "http://10.21.51.156:7379/GET/speed";
+      this.fetchUrlPower = "http://10.21.51.156:7379/GET/power";
+      this.fetchGear = "http://10.21.51.156:7379/GET/gear";
+      this.fetchBatteryStatus = "http://10.21.51.156:7379/GET/battery_status";
+
     }
     
-    updateSpeedStatus(){
+    updateStatus(){
       const self = this;
       fetch(self.fetchUrl)
       .catch(err => console.log(err))
@@ -48,6 +54,33 @@
         if (json["GET"]){
           var data = JSON.parse(json["GET"]);
           self.setState({power: data});
+        } else {
+          console.log("no data");
+        }
+      });
+
+      fetch(self.fetchGear)
+      .catch(err => console.log(err))
+      .then(res => res.json())
+      .then(json => {
+        if (json["GET"]){
+          var data = JSON.stringify(json["GET"]);
+          data = JSON.parse(data);
+          self.setState({gear: data});
+        } else {
+          console.log("no data");
+        }
+      });
+
+      fetch(self.fetchBatteryStatus)
+      .catch(err => console.log(err))
+      .then(res => res.json())
+      .then(json => {
+        if (json["GET"]){
+          var data = JSON.parse(json["GET"]);
+          var mile = data.battery_mile;
+          self.setState({battery_percentage: `${data.battery_percentage}`,
+           battery_status: `${data.battery_mile}`});
         } else {
           console.log("no data");
         }
@@ -89,8 +122,8 @@
 
       const self = this;
       //Temperory disable for the test use
-      //self.updateSpeedStatus();
-      //self.intervalId = setInterval(self.updateSpeedStatus.bind(self), self.updateInterval);
+      self.updateStatus();
+      self.intervalId = setInterval(self.updateStatus.bind(self), self.updateInterval);
     }
 
     componentWillUnmount() {
@@ -107,7 +140,7 @@
       return (
         <div class="col col-lg-4 col-md-6">
           <div class = "row">
-              <InfoTop />
+              <InfoTop value={this.state}/>
           </div>
           <div class = "row">
               <RpmGauge value={this.state} />

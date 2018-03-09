@@ -15,14 +15,15 @@ export default class RpmGauge extends Component {
     rpmText = null;
     speedText = null;
     logoText = null;
+    torqueText = null;
 
   componentDidMount() {
     this.generate();
   }
 
   componentWillUpdate() {
-    this.setValue(this.props.value.speed, 200);
-    this.setValuePower(this.props.value.power, 200);
+    this.setValue(this.props.value.speed, 500);
+    this.setValuePower(this.props.value.power, 500);
   }
 
   generate() {
@@ -32,7 +33,7 @@ export default class RpmGauge extends Component {
     const svgHeight = parseInt(svg.style("height"));
     const bg = svg.append('g').attr('class', 'status').attr('transform', `translate(${svgWidth/2}, ${svgHeight/2})`);
     const g = svg.append('g').attr('transform', `translate(${svgWidth/2}, ${svgHeight/2})`);
-    const colors = ['#D1D1D1', '#AFAFAF', '#FFFFFF', '#FD3104',  '#171717', '#0aa8d8', '#0A0A0A', '#fd7804', '#10f249'];
+    const colors = ['#D1D1D1', '#AFAFAF', '#FFFFFF', '#FD3104',  '#171717', '#0aa8d8', '#0A0A0A', '#fd7804', '#10f249','#212529'];
     const MPHticksData = [
     { value: 0 },
     { value: 20 },
@@ -47,6 +48,7 @@ export default class RpmGauge extends Component {
     { value: 200 }
     ];
     const KWticksData = [
+    { value: -100},
     { value: -80 },
     { value: -60 },      
     { value: -40 },
@@ -57,7 +59,8 @@ export default class RpmGauge extends Component {
     { value: 80 },
     { value: 160 },
     { value: 320 },
-    { value: 640 }
+    { value: 640 },
+    { value: 800 }
     ];
     const r = 200; // width / 2
 
@@ -77,7 +80,7 @@ export default class RpmGauge extends Component {
     .attr('stop-opacity', 0.7);
     gradient.append('stop')
     .attr('offset', '100%')
-    .attr('stop-color', colors[6])
+    .attr('stop-color', colors[9])
     .attr('stop-opacity', 1);
 
     const gradientPower = defs.append('linearGradient')
@@ -92,7 +95,7 @@ export default class RpmGauge extends Component {
     .attr('stop-opacity', 0.7);
     gradientPower.append('stop')
     .attr('offset', '100%')
-    .attr('stop-color', colors[6])
+    .attr('stop-color', colors[9])
     .attr('stop-opacity', 1);
 
     const gradientPowerNegative = defs.append('linearGradient')
@@ -107,7 +110,7 @@ export default class RpmGauge extends Component {
     .attr('stop-opacity', 0.7);
     gradientPowerNegative.append('stop')
     .attr('offset', '90%')
-    .attr('stop-color', colors[6])
+    .attr('stop-color', colors[9])
     .attr('stop-opacity', 1);
 
     const gradientBackground = defs.append('linearGradient')
@@ -122,7 +125,7 @@ export default class RpmGauge extends Component {
     .attr('stop-opacity', 0.5);
     gradientBackground.append('stop')
     .attr('offset', '90%')
-    .attr('stop-color', colors[6])
+    .attr('stop-color', colors[9])
     .attr('stop-opacity', 0);
     gradientBackground.append('stop')
     .attr('offset', '100%')
@@ -139,7 +142,7 @@ export default class RpmGauge extends Component {
 
     radialGradient.append("stop")
     .attr("offset", "80%")
-    .attr("stop-color", colors[6])
+    .attr("stop-color", colors[9])
     .attr('stop-opacity', 0.1);
 
 
@@ -230,12 +233,12 @@ export default class RpmGauge extends Component {
  }, []).filter(d => d % 4 === 0 && d <= 200);
     
     const KWticks = KWticksData.reduce((acc, curr, i) => {
-     if (curr.value >= -80 && curr.value < 20) {
+     if (curr.value >= -100 && curr.value < 20) {
        return acc.concat(range(curr.value, curr.value + 20));    
      } else {
        return acc.concat(range(curr.value, curr.value * 2 ));
      }
-   }, []).filter(d => d % 20 === 0 && d <= 640);
+   }, []).filter(d => d % 20 === 0 && d <= 800);
 
     
     //MPH ticks
@@ -269,8 +272,8 @@ export default class RpmGauge extends Component {
     .attr('x2', 0)
     .attr('y2', 12)
     .attr('transform', d => {
-      const scalelog = scaleLog().base(2).range([0, 1]).domain([1, 32]);
-      const scalelinear = scaleLinear().range([0, 1]).domain([-80, 20]); 
+      const scalelog = scaleLog().base(2).range([0, 1]).domain([1, 40]);
+      const scalelinear = scaleLinear().range([0, 1]).domain([-100, 20]); 
       const ratio = d >= 20 ? scalelog(d / 20) : scalelinear(d);
       const minAngle = d >= 20 ? minAngle_kw_positive : minAngle_kw_negative;
       const maxAngle = d >= 20 ? maxAngle_kw_positive : maxAngle_kw_negative;
@@ -278,11 +281,16 @@ export default class RpmGauge extends Component {
       const deviation = Math.abs(d) === 0 ? 17 : 12;
       return `rotate(${newAngle}) translate(0, ${deviation - r})`;
     })
-    .style('stroke', d => d === -80 || d === -60 || d === -40 || d === -20 || d === 0 || d === 20 || d === 40
-     || d === 80 || d === 160 || d === 320 || d === 640
-     ? colors[2] : colors[6])
-    .style('stroke-width', d => d === -80 || d === -60 || d === -40 || d === -20 || d === 20 || d === 40
-     || d === 80 || d === 160 || d === 320 || d === 640 
+    .style('stroke', function(d){
+      if (d === -100 || d === -80 || d === -60 || d === -40 || d === -20 || d === 0 || d === 20 || d === 40
+      || d === 80 || d === 160 ){
+        return colors[2];
+      }else if(d === 320 || d === 800){
+        return colors[3];
+      } 
+    })
+    .style('stroke-width', d => d === -100 || d === -80 || d === -60 || d === -40 || d === -20 || d === 20 || d === 40
+     || d === 80 || d === 160 || d === 320 || d === 800
      ? '3' : '0')
     .attr('z-index', '2');
 
@@ -309,8 +317,8 @@ export default class RpmGauge extends Component {
     .data(KWticksData)
     .enter().append('text')
     .attr('transform', d => {
-      const scalelog = scaleLog().base(2).range([0, 1]).domain([1, 32]);
-      const scalelinear = scaleLinear().range([0, 1]).domain([-80, 20]); 
+      const scalelog = scaleLog().base(2).range([0, 1]).domain([1, 40]);
+      const scalelinear = scaleLinear().range([0, 1]).domain([-100, 20]); 
       const ratio = d.value >= 20 ? scalelog(d.value / 20) : scalelinear(d.value);
       const minAngle = d.value >= 20 ? minAngle_kw_positive : minAngle_kw_negative;
       const maxAngle = d.value >= 20 ? maxAngle_kw_positive : maxAngle_kw_negative;
@@ -319,8 +327,17 @@ export default class RpmGauge extends Component {
       const x = -1 * (40 - r) * Math.sin(newAngle);
       return `translate(${x}, ${y + 5})`;
     })
-    .text(d => d.value === 0 ? 'kW' : Math.abs(d.value))
-    .attr('fill', colors[2])
+    .text(function(d) {
+        if(d.value === 0){ return 'Nm';}
+        else if(d.value === -100 || d.value === -80 || d.value === -60 || d.value === -40 || d.value === -20 || d.value === 20 || d.value === 40
+     || d.value === 80 || d.value === 160 || d.value === 320 || d.value === 800){ return Math.abs(d.value); }
+        else { return '';}    
+    })
+    .attr('fill', function(d){
+        if(d.value === 320 || d.value === 800){
+            return colors[3];
+        }else { return colors[2]; }
+    })
     .attr('font-size', '10')
     .attr('text-anchor', 'middle')
     .attr('z-index', '2');
@@ -371,7 +388,7 @@ export default class RpmGauge extends Component {
     // .attr('fill', 'url(#gradient1)')
     // .attr('z-index', '10');
 
-    // big text in center
+    // speed text in center
     this.speedText = tg.append('text')
     .text('0')
     .attr('font-size', '80')
@@ -384,7 +401,50 @@ export default class RpmGauge extends Component {
     .style('position', 'absolute')
     .style('z-index', '10');
 
+    // Speed unit text
+    this.speedUnitText = tg.append('text')
+    .text('mph')
+    .attr('font-size', '15')
+    .attr('font-family', 'Arial')
+    .attr('text-anchor', 'middle')
+    .attr('opacity', '0.9')
+    .attr('fill', colors[2])
+    .attr('x', '0')
+    .attr('y', '7%')
+    .style('position', 'absolute')
+    .style('z-index', '10');
+
+    // Torgue text
+
+    this.torqueText = tg.append('text')
+    .text('0')
+    .attr('font-size', '40')
+    .attr('font-family', 'Arial')
+    .attr('text-anchor', 'middle')
+    .attr('opacity', '0.9')
+    .attr('fill', colors[2])
+    .attr('x', '0')
+    .attr('y', '20%')
+    .style('position', 'absolute')
+    .style('z-index', '10');
+    
+    // Torque unit
+
+    this.torqueUnitText = tg.append('text')
+    .text('Nm')
+    .attr('font-size', '10')
+    .attr('font-family', 'Arial')
+    .attr('text-anchor', 'middle')
+    .attr('opacity', '0.9')
+    .attr('fill', colors[2])
+    .attr('x', '0')
+    .attr('y', '23%')
+    .style('position', 'absolute')
+    .style('z-index', '10');
+
   }
+
+
 
   degToRad(deg) {
     return deg * Math.PI / 180;
@@ -396,8 +456,8 @@ export default class RpmGauge extends Component {
   }
 
   scalePower(value) {
-    const scalelog = scaleLog().base(2).range([0, 1]).domain([1, 32]);
-    const scalelinear = scaleLinear().range([0, 1]).domain([-80, 20]);
+    const scalelog = scaleLog().base(2).range([0, 1]).domain([1, 40]);
+    const scalelinear = scaleLinear().range([0, 1]).domain([-100, 20]);
 
     if(value >= 20){
       return scalelog(value/20);
@@ -464,6 +524,10 @@ export default class RpmGauge extends Component {
 
     const angle = maxAngle - (this.scalePower(value) * (maxAngle - minAngle));
     const chartangle = this.degToRad(maxAngle - (this.scalePower(value) * (maxAngle - minAngle)));
+
+    this.torqueText.transition()
+    .ease(easeCubicInOut)
+    .text(value);
 
     this.needle_kw.transition()
     .duration(duration)
