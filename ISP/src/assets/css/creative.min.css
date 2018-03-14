@@ -292,9 +292,9 @@ header.masthead p {
                 }
 
                 .thermal {
-                    width: 1200px;
+                    width: 1000px;
                     height: 600px;
-                    margin: 1rem;
+                    margin-top: 1rem;
                     margin-left: 1rem;
                 }
 
@@ -309,7 +309,7 @@ header.masthead p {
                  width: 600px;
              }
 
-             .battery-layout{
+             /*.battery-layout{
                 width:1000px;
                 height:800px;
                 top:20px;
@@ -319,13 +319,13 @@ header.masthead p {
 
 
              /*css file used for Microsoft Surfacebook*/
-             /*.battery-layout{
+             .battery-layout{
                 width:1000px;
                 height:800px;
                 margin-top: 1rem;
                 margin-left: 1rem;
                 position:absolute;
-             }*/
+             }
 
              .thermal-layout{
                 width:800px;

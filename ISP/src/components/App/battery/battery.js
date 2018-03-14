@@ -75,8 +75,7 @@ class Battery extends Component {
     console.log("RENDER: " + this.state.batteries.size);
     return (
       //Adjust to the Microsoft Surface Book 
-      //<div class="battery-layout"><svg width = "1000" height = "700" viewBox="0 0 800 400">
-      <div class="battery-layout"><svg width = "1200" height = "700" viewBox="0 0 800 400">
+      <div class="battery-layout"><svg width = "1000" height = "700" viewBox="0 0 800 400">
         <g>
           <rect width="700" height="400" rx="4" ry="4" fill="darkgray" stroke="grey" strokeWidth="5" />
           <rect x="700" y="100" width="20" height="50" rx="3" ry="3" fill="grey" />
