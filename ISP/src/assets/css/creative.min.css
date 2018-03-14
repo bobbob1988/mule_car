@@ -317,6 +317,16 @@ header.masthead p {
                 position:absolute;
              }
 
+
+             /*css file used for Microsoft Surfacebook*/
+             /*.battery-layout{
+                width:1000px;
+                height:800px;
+                margin-top: 1rem;
+                margin-left: 1rem;
+                position:absolute;
+             }*/
+
              .thermal-layout{
                 width:800px;
                 height:400px;
