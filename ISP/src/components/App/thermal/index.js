@@ -25,10 +25,10 @@ export default class Battery extends Component {
       };
     this.subscription = null;
     this.updateInterval = 100;
-    this.frontMotorfetchUrl = "http://10.21.51.156:7379/GET/FrontMotorData";
-    this.rearMotorfetchUrl = "http://10.21.51.156:7379/GET/RearMotorData";
-    // this.frontMotorfetchUrl = "http://127.0.0.1:6379/GET/FrontMotorData";
-    // this.rearMotorfetchUrl = "http://127.0.0.1:6379/GET/RearMotorData";
+    //this.frontMotorfetchUrl = "http://10.21.51.156:7379/GET/FrontMotorData";
+    //this.rearMotorfetchUrl = "http://10.21.51.156:7379/GET/RearMotorData";
+    this.frontMotorfetchUrl = "http://127.0.0.1:7379/GET/FrontMotorData";
+    this.rearMotorfetchUrl = "http://127.0.0.1:7379/GET/RearMotorData";
   }
 
   updateStatus() {

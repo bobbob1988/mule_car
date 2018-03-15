@@ -7,8 +7,8 @@ class Battery extends Component {
   constructor() {
     super();
     this.updateInterval = 5000;
-    this.fetchUrlPrefix = "http://10.21.51.156:7379/HGETALL/BatteryModuleInfo";
-    //this.fetchUrlPrefix = "http://127.0.0.1:6379/HGETALL/BatteryModuleInfo";
+    //this.fetchUrlPrefix = "http://10.21.51.156:7379/HGETALL/BatteryModuleInfo";
+    this.fetchUrlPrefix = "http://127.0.0.1:7379/HGETALL/BatteryModuleInfo";
     var battery_module_ids = ["13", "12", "11", "10", "9", "8", "7",
                                     "1",  "2",  "3",  "4", "5", "6"];
     this.battery_module_ids = battery_module_ids;

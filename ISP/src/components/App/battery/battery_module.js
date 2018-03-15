@@ -15,7 +15,7 @@ class BatteryModule extends Component {
     var cellVolts = [];
     for (var key in cells){
       var i = parseInt(key)-1;
-      var volt = cells[key];
+      var volt = parseFloat(cells[key]).toFixed(2).toString();
       cellVolts.push(<text x="0" y={15*i} fill="darkslateblue" fontFamily="Agency FB" fontSize="11" key={"k:"+i} >
                v{i+1}: {volt}
              </text>);

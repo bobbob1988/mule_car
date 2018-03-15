@@ -511,6 +511,7 @@ export default class RpmGauge extends Component {
   }
 
   setValuePower(value, duration) {
+    console.log(value);
      // KW ticks angle range (positive part)
     const minAngle_kw_positive = 10;
     const maxAngle_kw_positive = 78;

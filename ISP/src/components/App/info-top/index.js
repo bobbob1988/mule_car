@@ -96,9 +96,9 @@ export default class InfoTop extends Component {
 
   setBatteryMile(value) {
     var mileage = value.battery_status;
-    var percentage = value.battery_percentage; 
+    var percentage = parseFloat(value.battery_percentage).toFixed(2); 
     this.batteryNumber.transition()
-    .text(`${mileage}` + ' mi  ' + `${percentage}`);
+    .text(`${mileage}` + ' mi  ' + `${percentage}` + '%');
 
     // this.batteryImage.transition()
     // .attr('xlink:href', function(d){

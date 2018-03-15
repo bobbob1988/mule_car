@@ -28,13 +28,13 @@
       };
       this.subscription = null;
       this.updateInterval = 100;
-      this.fetchUrlVehicleState = "http://10.21.51.156:7379/GET/VehicleState";
-      this.fetchUrlFrontMotor = "http://10.21.51.156:7379/GET/FrontMotorData";
-      this.fetchUrlRearMotor = "http://10.21.51.156:7379/GET/RearMotorData";
-      this.fetchGear = "http://10.21.51.156:7379/GET/gear";
-      // this.fetchUrlVehicleState = "http://127.0.0.1:6379/GET/VehicleState";
-      // this.fetchUrlFrontMotor = "http://127.0.0.1:6379/GET/FrontMotorData";
-      // this.fetchUrlRearMotor = "http://127.0.0.1:6379/GET/RearMotorData";
+      //this.fetchUrlVehicleState = "http://10.21.51.156:7379/GET/VehicleState";
+      //this.fetchUrlFrontMotor = "http://10.21.51.156:7379/GET/FrontMotorData";
+      //this.fetchUrlRearMotor = "http://10.21.51.156:7379/GET/RearMotorData";
+      //this.fetchGear = "http://10.21.51.156:7379/GET/gear";
+      this.fetchUrlVehicleState = "http://127.0.0.1:7379/GET/VehicleState";
+      this.fetchUrlFrontMotor = "http://127.0.0.1:7379/GET/FrontMotorData";
+      this.fetchUrlRearMotor = "http://127.0.0.1:7379/GET/RearMotorData";
       // this.fetchGear = "http://10.21.51.156:7379/GET/gear";
 
     }
