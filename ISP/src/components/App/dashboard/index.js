@@ -16,7 +16,9 @@
       super();
 
       this.state = {
-        power: 0,
+        frontPower: 0,
+        rearPower: 0,
+        power:0,
         speed: 0,
         gear: 'P',
         battery_percentage: '',
@@ -26,34 +28,50 @@
       };
       this.subscription = null;
       this.updateInterval = 100;
-      this.fetchUrl = "http://10.21.51.156:7379/GET/speed";
-      this.fetchUrlPower = "http://10.21.51.156:7379/GET/power";
+      this.fetchUrlVehicleState = "http://10.21.51.156:7379/GET/VehicleState";
+      this.fetchUrlFrontMotor = "http://10.21.51.156:7379/GET/FrontMotorData";
+      this.fetchUrlRearMotor = "http://10.21.51.156:7379/GET/RearMotorData";
       this.fetchGear = "http://10.21.51.156:7379/GET/gear";
-      this.fetchBatteryStatus = "http://10.21.51.156:7379/GET/StateOfCharge";
+      // this.fetchUrlVehicleState = "http://127.0.0.1:6379/GET/VehicleState";
+      // this.fetchUrlFrontMotor = "http://127.0.0.1:6379/GET/FrontMotorData";
+      // this.fetchUrlRearMotor = "http://127.0.0.1:6379/GET/RearMotorData";
+      // this.fetchGear = "http://10.21.51.156:7379/GET/gear";
 
     }
     
     updateStatus(){
       const self = this;
-      fetch(self.fetchUrl)
+      fetch(self.fetchUrlVehicleState)
       .catch(err => console.log(err))
       .then(res => res.json())
       .then(json => {
         if (json["GET"]){
           var data = JSON.parse(json["GET"]);
-          self.setState({speed: data});
+          self.setState({speed: `${data.vehicleSpeed}`, battery_percentage: `${data.stateOfCharge}` + '%'});
         } else {
           console.log("no data");
         }
       });
 
-      fetch(self.fetchUrlPower)
+      fetch(self.fetchUrlFrontMotor)
       .catch(err => console.log(err))
       .then(res => res.json())
       .then(json => {
         if (json["GET"]){
           var data = JSON.parse(json["GET"]);
-          self.setState({power: data});
+          self.setState({frontPower: `${data.frontMotorTorque}`});
+        } else {
+          console.log("no data");
+        }
+      });
+
+      fetch(self.fetchUrlRearMotor)
+      .catch(err => console.log(err))
+      .then(res => res.json())
+      .then(json => {
+        if (json["GET"]){
+          var data = JSON.parse(json["GET"]);
+          self.setState({rearPower: `${data.rearMotorTorque}`});
         } else {
           console.log("no data");
         }
@@ -71,21 +89,6 @@
           console.log("no data");
         }
       });
-
-      fetch(self.fetchBatteryStatus)
-      .catch(err => console.log(err))
-      .then(res => res.json())
-      .then(json => {
-        if (json["GET"]){
-          var data = JSON.parse(json["GET"]);
-          var mile = data.battery_mile;
-          self.setState({battery_percentage: `${data.stateOfCharge}`,
-           battery_status: 0});
-        } else {
-          console.log("no data");
-        }
-      });
-
     }
 
 

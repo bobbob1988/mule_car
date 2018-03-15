@@ -27,6 +27,8 @@ export default class Battery extends Component {
     this.updateInterval = 100;
     this.frontMotorfetchUrl = "http://10.21.51.156:7379/GET/FrontMotorData";
     this.rearMotorfetchUrl = "http://10.21.51.156:7379/GET/RearMotorData";
+    // this.frontMotorfetchUrl = "http://127.0.0.1:6379/GET/FrontMotorData";
+    // this.rearMotorfetchUrl = "http://127.0.0.1:6379/GET/RearMotorData";
   }
 
   updateStatus() {
@@ -1176,8 +1178,8 @@ export default class Battery extends Component {
     .attr('text-anchor', 'middle')
     .attr('opacity', '0.9')
     .attr('fill', colors[0])
-    .attr('x', '-10%')
-    .attr('y', '11%')
+    .attr('x', '-12%')
+    .attr('y', '10%')
     .attr('transform', `rotate(${-90})`)
     .style('position', 'absolute')
     .attr('font-weight', 'bold')

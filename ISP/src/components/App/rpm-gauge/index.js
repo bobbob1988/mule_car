@@ -23,7 +23,7 @@ export default class RpmGauge extends Component {
 
   componentWillUpdate() {
     this.setValue(this.props.value.speed, 500);
-    this.setValuePower(this.props.value.power, 500);
+    this.setValuePower(`${parseFloat(this.props.value.frontPower) + parseFloat(this.props.value.rearPower)}`, 500);
   }
 
   generate() {
