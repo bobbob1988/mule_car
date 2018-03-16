@@ -20,7 +20,7 @@
         rearPower: 0,
         power:0,
         speed: 0,
-        gear: 'P',
+        gear: 0,
         battery_percentage: '',
         battery_status: 0,
         acc: false,
@@ -31,7 +31,7 @@
       this.fetchUrlVehicleState = "http://10.21.51.156:7379/GET/VehicleState";
       this.fetchUrlFrontMotor = "http://10.21.51.156:7379/GET/FrontMotorData";
       this.fetchUrlRearMotor = "http://10.21.51.156:7379/GET/RearMotorData";
-      this.fetchGear = "http://10.21.51.156:7379/GET/gear";
+      //this.fetchGear = "http://10.21.51.156:7379/GET/gear";
       //this.fetchUrlVehicleState = "http://127.0.0.1:7379/GET/VehicleState";
       //this.fetchUrlFrontMotor = "http://127.0.0.1:7379/GET/FrontMotorData";
       //this.fetchUrlRearMotor = "http://127.0.0.1:7379/GET/RearMotorData";
@@ -47,7 +47,7 @@
       .then(json => {
         if (json["GET"]){
           var data = JSON.parse(json["GET"]);
-          self.setState({speed: `${data.vehicleSpeed}`, battery_percentage: `${data.stateOfCharge}` + '%'});
+          self.setState({speed: `${data.vehicleSpeed}`, battery_percentage: `${data.stateOfCharge}`, gear: `${data.vehicleGear}`});
         } else {
           console.log("no data");
         }
@@ -77,18 +77,18 @@
         }
       });
 
-      fetch(self.fetchGear)
-      .catch(err => console.log(err))
-      .then(res => res.json())
-      .then(json => {
-        if (json["GET"]){
-          var data = JSON.stringify(json["GET"]);
-          data = JSON.parse(data);
-          self.setState({gear: data});
-        } else {
-          console.log("no data");
-        }
-      });
+      // fetch(self.fetchGear)
+      // .catch(err => console.log(err))
+      // .then(res => res.json())
+      // .then(json => {
+      //   if (json["GET"]){
+      //     var data = JSON.stringify(json["GET"]);
+      //     data = JSON.parse(data);
+      //     self.setState({gear: data});
+      //   } else {
+      //     console.log("no data");
+      //   }
+      // });
     }
 
 

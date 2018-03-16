@@ -91,7 +91,26 @@ export default class InfoTop extends Component {
 
   setGear(value) {
     this.gearText.transition()
-    .text(value);
+    .text(function(d){
+      var gearString = "";
+      switch(parseInt(value)){
+        case 0:
+          gearString = "P";
+          break;
+        case 1:
+          gearString = "R";
+          break;
+        case 2:
+          gearString = "N";
+          break;
+        case 3:
+          gearString = "D";
+          break;
+        default:
+          gearString = "";
+      }
+      return gearString;
+    });
   }
 
   setBatteryMile(value) {
