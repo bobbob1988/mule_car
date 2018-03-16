@@ -22,8 +22,8 @@ export default class RpmGauge extends Component {
   }
 
   componentWillUpdate() {
-    this.setValue(this.props.value.speed, 500);
-    this.setValuePower(`${parseFloat(this.props.value.frontPower) + parseFloat(this.props.value.rearPower)}`, 500);
+    this.setValue(this.props.value.speed, 200);
+    this.setValuePower(`${parseFloat(this.props.value.frontPower) + parseFloat(this.props.value.rearPower)}`, 200);
   }
 
   generate() {
@@ -511,7 +511,6 @@ export default class RpmGauge extends Component {
   }
 
   setValuePower(value, duration) {
-    console.log(value);
      // KW ticks angle range (positive part)
     const minAngle_kw_positive = 10;
     const maxAngle_kw_positive = 78;

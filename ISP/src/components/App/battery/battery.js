@@ -7,8 +7,8 @@ class Battery extends Component {
   constructor() {
     super();
     this.updateInterval = 5000;
-    //this.fetchUrlPrefix = "http://10.21.51.156:7379/HGETALL/BatteryModuleInfo";
-    this.fetchUrlPrefix = "http://127.0.0.1:7379/HGETALL/BatteryModuleInfo";
+    this.fetchUrlPrefix = "http://10.21.51.156:7379/HGETALL/BatteryModuleInfo";
+    //this.fetchUrlPrefix = "http://127.0.0.1:7379/HGETALL/BatteryModuleInfo";
     var battery_module_ids = ["13", "12", "11", "10", "9", "8", "7",
                                     "1",  "2",  "3",  "4", "5", "6"];
     this.battery_module_ids = battery_module_ids;
@@ -73,7 +73,7 @@ class Battery extends Component {
     if (!this.state || !this.state.batteries ){
       return null;
     }
-    console.log("RENDER: " + this.state.batteries.size);
+    //console.log("RENDER: " + this.state.batteries.size);
     return (
       //Adjust to the Microsoft Surface Book 
       <div class="battery-layout"><svg width = "1000" height = "700" viewBox="0 0 800 400">

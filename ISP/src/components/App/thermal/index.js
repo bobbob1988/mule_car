@@ -25,10 +25,10 @@ export default class Battery extends Component {
       };
     this.subscription = null;
     this.updateInterval = 100;
-    //this.frontMotorfetchUrl = "http://10.21.51.156:7379/GET/FrontMotorData";
-    //this.rearMotorfetchUrl = "http://10.21.51.156:7379/GET/RearMotorData";
-    this.frontMotorfetchUrl = "http://127.0.0.1:7379/GET/FrontMotorData";
-    this.rearMotorfetchUrl = "http://127.0.0.1:7379/GET/RearMotorData";
+    this.frontMotorfetchUrl = "http://10.21.51.156:7379/GET/FrontMotorData";
+    this.rearMotorfetchUrl = "http://10.21.51.156:7379/GET/RearMotorData";
+    //this.frontMotorfetchUrl = "http://127.0.0.1:7379/GET/FrontMotorData";
+    //this.rearMotorfetchUrl = "http://127.0.0.1:7379/GET/RearMotorData";
   }
 
   updateStatus() {
@@ -89,8 +89,7 @@ export default class Battery extends Component {
     var colorScale = d3.scaleQuantile()
     .domain([-40, 0, 216])
     .range(tempColor);
-
-    console.log(colorScale(19));
+    
     // gradients
     const defs = svg.append('defs');
 
