@@ -38,45 +38,82 @@
       // this.fetchGear = "http://10.21.51.156:7379/GET/gear";
 
     }
-    
-    updateStatus(){
+
+    async fetchURLs() {
       const self = this;
-      fetch(self.fetchUrlVehicleState)
-      .catch(err => console.log(err))
-      .then(res => res.json())
-      .then(json => {
+      try {
+      // Promise.all() lets us coalesce multiple promises into a single super-promise
+      var data = await Promise.all([
+        fetch(self.fetchUrlVehicleState).then((response) => response.json()).then((json) => {
         if (json["GET"]){
-          var data = JSON.parse(json["GET"]);
-          self.setState({speed: `${data.vehicleSpeed}`, battery_percentage: `${data.stateOfCharge}`, gear: `${data.vehicleGear}`});
-        } else {
+          return JSON.parse(json["GET"]);
+         }else {
           console.log("no data");
-        }
-      });
-
-      fetch(self.fetchUrlFrontMotor)
-      .catch(err => console.log(err))
-      .then(res => res.json())
-      .then(json => {
+         }
+       }),// parse each response as json
+        fetch(self.fetchUrlFrontMotor).then((response) => response.json()).then((json) => {
         if (json["GET"]){
-          var data = JSON.parse(json["GET"]);
-          self.setState({frontPower: `${data.frontMotorTorque}`});
-        } else {
+          return JSON.parse(json["GET"]);
+         }else {
           console.log("no data");
-        }
-      });
-
-      fetch(self.fetchUrlRearMotor)
-      .catch(err => console.log(err))
-      .then(res => res.json())
-      .then(json => {
+         }
+       }),
+        fetch(self.fetchUrlRearMotor).then((response) => response.json()).then((json) => {
         if (json["GET"]){
-          var data = JSON.parse(json["GET"]);
-          self.setState({rearPower: `${data.rearMotorTorque}`});
-        } else {
+          return JSON.parse(json["GET"]);
+         }else {
           console.log("no data");
-        }
-      });
+         }
+       })
+      ]);
 
+      self.setState({speed: `${data[0].vehicleSpeed}`, battery_percentage: `${data[0].stateOfCharge}`, gear: `${data[0].vehicleGear}`,
+        frontPower: `${data[1].frontMotorTorque}`, rearPower: `${data[2].rearMotorTorque}`});
+       console.log(self.state);
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    
+    // updateStatus(){
+    //   const self = this;
+    //   fetch(self.fetchUrlVehicleState)
+    //   .catch(err => console.log(err))
+    //   .then(res => res.json())
+    //   .then(json => {
+    //     if (json["GET"]){
+    //       var data = JSON.parse(json["GET"]);
+    //       self.setState({speed: `${data.vehicleSpeed}`, battery_percentage: `${data.stateOfCharge}`, gear: `${data.vehicleGear}`});
+    //     } else {
+    //       console.log("no data");
+    //     }
+    //   });
+
+    //   fetch(self.fetchUrlFrontMotor)
+    //   .catch(err => console.log(err))
+    //   .then(res => res.json())
+    //   .then(json => {
+    //     if (json["GET"]){
+    //       var data = JSON.parse(json["GET"]);
+    //       self.setState({frontPower: `${data.frontMotorTorque}`});
+    //     } else {
+    //       console.log("no data");
+    //     }
+    //   });
+
+    //   fetch(self.fetchUrlRearMotor)
+    //   .catch(err => console.log(err))
+    //   .then(res => res.json())
+    //   .then(json => {
+    //     if (json["GET"]){
+    //       var data = JSON.parse(json["GET"]);
+    //       self.setState({rearPower: `${data.rearMotorTorque}`});
+    //     } else {
+    //       console.log("no data");
+    //     }
+    //   });
       // fetch(self.fetchGear)
       // .catch(err => console.log(err))
       // .then(res => res.json())
@@ -89,50 +126,27 @@
       //     console.log("no data");
       //   }
       // });
-    }
 
-
-    handleKeyDown(e) {
-      if (e.which === 38) { // up arrow key
-        this.setState({ acc: true });
-      }
-    }
-
-    handleKeyUp(e) {
-      if (e.which === 38) {
-        this.setState({ acc: false });
-      }
-    }
+      //console.log(self.state);
+    //}
 
     componentDidMount() {
-      // document.addEventListener('keydown', this.handleKeyDown.bind(this), false);
-      // document.addEventListener('keyup', this.handleKeyUp.bind(this), false);
+     const self = this
+     this.subscription = Observable
+     .interval(100)
+     .timeInterval()
+     .subscribe(() => {
+      self.fetchURLs();
+    });
 
-      // this.subscription = Observable
-      // .interval(10)
-      // .timeInterval()
-      // .subscribe(() => {
-      //   if (this.state.acc) {
-      //     if (this.state.speed <= 199) {
-      //       this.setState({ speed: this.state.speed += 1, power: this.state.power += 1 });
-      //     }
-      //   } else {
-      //     if (this.state.speed >= 1) {
-      //       this.setState({ speed: this.state.speed -= 1, power: this.state.power -= 1 });
-      //     }
-      //   }
-      // });
-
-      const self = this;
+      //const self = this;
       //Temperory disable for the test use
-      self.updateStatus();
-      self.intervalId = setInterval(self.updateStatus.bind(self), self.updateInterval);
+      //self.updateStatus();
+      //self.intervalId = setInterval(self.updateStatus.bind(self), self.updateInterval);
     }
 
     componentWillUnmount() {
-      clearInterval(this.intervalId);
-      document.removeEventListener('keydown', this.handleKeyDown, false);
-      document.removeEventListener('keyup', this.handleKeyUp, false);
+      //clearInterval(this.intervalId);
 
       if (this.subscription) {
         this.subscription.unsubscribe();
@@ -142,13 +156,13 @@
     render() {
       return (
         <div class="col col-lg-4 col-md-6">
-          <div class = "row">
-              <InfoTop value={this.state}/>
-          </div>
-          <div class = "row">
-              <RpmGauge value={this.state} />
-          </div>
+        <div class = "row">
+        <InfoTop value={this.state}/>
         </div>
-       )
+        <div class = "row">
+        <RpmGauge value={this.state} />
+        </div>
+        </div>
+        )
     }
   }

@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/interval';
+import 'rxjs/add/operator/timeInterval';
 import fetch from 'node-fetch';
 import * as d3 from "d3";
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
@@ -8,7 +11,7 @@ export default class Battery extends Component {
 
   constructor() {
     super();
-    this.updateInterval = 1000;
+    //this.updateInterval = 1000;
     this.state = {
         frontphA: 0,
         frontphB: 0,
@@ -24,57 +27,101 @@ export default class Battery extends Component {
         rearwinding2: 0,
       };
     this.subscription = null;
-    this.updateInterval = 100;
+    //this.updateInterval = 1000;
     this.frontMotorfetchUrl = "http://10.21.51.156:7379/GET/FrontMotorData";
     this.rearMotorfetchUrl = "http://10.21.51.156:7379/GET/RearMotorData";
     //this.frontMotorfetchUrl = "http://127.0.0.1:7379/GET/FrontMotorData";
     //this.rearMotorfetchUrl = "http://127.0.0.1:7379/GET/RearMotorData";
   }
 
-  updateStatus() {
-    const self = this;
-    fetch(self.frontMotorfetchUrl)
-    .catch(err => console.log(err))
-    .then(res => res.json())
-    .then(json => {
-      if (json["GET"]){
-        var data = JSON.parse(json["GET"]);
-        self.setState({frontphA: `${data.frontMotorTemperature.frontMotorSinkPhaseATemp}`, frontphB: `${data.frontMotorTemperature.frontMotorSinkPhaseBTemp}`, frontphC: `${data.frontMotorTemperature.frontMotorSinkPhaseCTemp}`,
-        frontcoolant:`${data.frontMotorTemperature.frontMotorCoolantTemp}`, frontwinding1: `${data.frontMotorTemperature.frontMotorWindingTemp1}`, frontwinding2: `${data.frontMotorTemperature.frontMotorWindingTemp2}`
-      });
-      } else {
-        console.log("no data");
-      }
-    });
+  async fetchURLs() {
+      const self = this;
+      try {
+      // Promise.all() lets us coalesce multiple promises into a single super-promise
+      var data = await Promise.all([
+        fetch(self.frontMotorfetchUrl).then((response) => response.json()).then((json) => {
+        if (json["GET"]){
+          return JSON.parse(json["GET"]);
+         }else {
+          console.log("no data");
+         }
+       }),// parse each response as json
+        fetch(self.rearMotorfetchUrl).then((response) => response.json()).then((json) => {
+        if (json["GET"]){
+          return JSON.parse(json["GET"]);
+         }else {
+          console.log("no data");
+         }
+       })
+      ]);
 
-    fetch(self.rearMotorfetchUrl)
-    .catch(err => console.log(err))
-    .then(res => res.json())
-    .then(json => {
-      if (json["GET"]){
-        var data = JSON.parse(json["GET"]);
-        self.setState({
-        rearphA: `${data.rearMotorTemperature.rearMotorSinkPhaseATemp}`, rearphB: `${data.rearMotorTemperature.rearMotorSinkPhaseBTemp}`, rearphC: `${data.rearMotorTemperature.rearMotorSinkPhaseCTemp}`,
-        rearcoolant:`${data.rearMotorTemperature.rearMotorCoolantTemp}`, rearwinding1: `${data.rearMotorTemperature.rearMotorWindingTemp1}`, rearwinding2: `${data.rearMotorTemperature.rearMotorWindingTemp2}`
-      });
-      } else {
-        console.log("no data");
+      self.setState({frontphA: `${data[0].frontMotorTemperature.frontMotorSinkPhaseATemp}`, frontphB: `${data[0].frontMotorTemperature.frontMotorSinkPhaseBTemp}`, frontphC: `${data[0].frontMotorTemperature.frontMotorSinkPhaseCTemp}`,
+        frontcoolant:`${data[0].frontMotorTemperature.frontMotorCoolantTemp}`, frontwinding1: `${data[0].frontMotorTemperature.frontMotorWindingTemp1}`, frontwinding2: `${data[0].frontMotorTemperature.frontMotorWindingTemp2}`,
+        rearphA: `${data[1].rearMotorTemperature.rearMotorSinkPhaseATemp}`, rearphB: `${data[1].rearMotorTemperature.rearMotorSinkPhaseBTemp}`, rearphC: `${data[1].rearMotorTemperature.rearMotorSinkPhaseCTemp}`,
+        rearcoolant:`${data[1].rearMotorTemperature.rearMotorCoolantTemp}`, rearwinding1: `${data[1].rearMotorTemperature.rearMotorWindingTemp1}`, rearwinding2: `${data[1].rearMotorTemperature.rearMotorWindingTemp2}`
+     });
+       console.log(self.state);
+      } catch (error) {
+        console.log(error);
       }
-    });
-  }
+    }
+
+
+
+  // updateStatus() {
+  //   const self = this;
+  //   fetch(self.frontMotorfetchUrl)
+  //   .catch(err => console.log(err))
+  //   .then(res => res.json())
+  //   .then(json => {
+  //     if (json["GET"]){
+  //       var data = JSON.parse(json["GET"]);
+  //       self.setState({frontphA: `${data.frontMotorTemperature.frontMotorSinkPhaseATemp}`, frontphB: `${data.frontMotorTemperature.frontMotorSinkPhaseBTemp}`, frontphC: `${data.frontMotorTemperature.frontMotorSinkPhaseCTemp}`,
+  //       frontcoolant:`${data.frontMotorTemperature.frontMotorCoolantTemp}`, frontwinding1: `${data.frontMotorTemperature.frontMotorWindingTemp1}`, frontwinding2: `${data.frontMotorTemperature.frontMotorWindingTemp2}`
+  //     });
+  //     } else {
+  //       console.log("no data");
+  //     }
+  //   });
+
+  //   fetch(self.rearMotorfetchUrl)
+  //   .catch(err => console.log(err))
+  //   .then(res => res.json())
+  //   .then(json => {
+  //     if (json["GET"]){
+  //       var data = JSON.parse(json["GET"]);
+  //       self.setState({
+  //       rearphA: `${data.rearMotorTemperature.rearMotorSinkPhaseATemp}`, rearphB: `${data.rearMotorTemperature.rearMotorSinkPhaseBTemp}`, rearphC: `${data.rearMotorTemperature.rearMotorSinkPhaseCTemp}`,
+  //       rearcoolant:`${data.rearMotorTemperature.rearMotorCoolantTemp}`, rearwinding1: `${data.rearMotorTemperature.rearMotorWindingTemp1}`, rearwinding2: `${data.rearMotorTemperature.rearMotorWindingTemp2}`
+  //     });
+  //     } else {
+  //       console.log("no data");
+  //     }
+  //   });
+  // }
+
   componentDidMount() {
     this.generate();
     const self = this;
-    self.updateStatus();
-    self.intervalId = setInterval(self.updateStatus.bind(self), self.updateInterval);
+    this.subscription = Observable
+     .interval(100)
+     .timeInterval()
+     .subscribe(() => {
+      self.fetchURLs();
+    });
+    //self.updateStatus();
+    //self.intervalId = setInterval(self.updateStatus.bind(self), self.updateInterval);
   }
 
   componentWillUpdate() {
-    this.setValue(this.state);
+    this.setValue(this.state, 200);
   }
 
   componentWillUnmount() {
-    clearInterval(this.intervalId);
+    //clearInterval(this.intervalId);
+    if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
   }
 
   generate() {
@@ -1245,7 +1292,7 @@ export default class Battery extends Component {
     })
 
     this.winding1FrontBox.transition()
-    .duration(500)
+    .duration(duration)
     .attr('fill',colorScale(value.frontwinding1));
 
     this.winding2FrontTemperatureText.transition()
@@ -1268,7 +1315,7 @@ export default class Battery extends Component {
     })
 
     this.winding2FrontBox.transition()
-    .duration(500)
+    .duration(duration)
     .attr('fill',function(d){
         if(value.frontwinding2 <= 90 && value.frontwinding2 >= -20){
             return colors[1];
@@ -1298,7 +1345,7 @@ export default class Battery extends Component {
     })
     
     this.phAFrontBox.transition()
-    .duration(500)
+    .duration(duration)
     .attr('fill',colorScale(value.frontphA));
 
     this.phBFrontTemperatureText.transition()
@@ -1321,7 +1368,7 @@ export default class Battery extends Component {
     })
 
     this.phBFrontBox.transition()
-    .duration(500)
+    .duration(duration)
     .attr('fill',colorScale(value.frontphB));
 
     this.phCFrontTemperatureText.transition()
@@ -1344,7 +1391,7 @@ export default class Battery extends Component {
     })
 
     this.phCFrontBox.transition()
-    .duration(500)
+    .duration(duration)
     .attr('fill',colorScale(value.frontphC));
 
     this.coolantFrontTemperatureText.transition()
@@ -1367,7 +1414,7 @@ export default class Battery extends Component {
     })
 
     this.coolantFrontBox.transition()
-    .duration(500)
+    .duration(duration)
     .attr('fill',colorScale(value.frontcoolant));
 
     this.winding1RearTemperatureText.transition()
@@ -1390,7 +1437,7 @@ export default class Battery extends Component {
     })
 
     this.winding1RearBox.transition()
-    .duration(500)
+    .duration(duration)
     .attr('fill',colorScale(value.rearwinding1));
 
     this.winding2RearTemperatureText.transition()
@@ -1413,7 +1460,7 @@ export default class Battery extends Component {
     })
 
     this.winding2RearBox.transition()
-    .duration(500)
+    .duration(duration)
     .attr('fill',colorScale(value.rearwinding2));
 
     this.phARearTemperatureText.transition()
@@ -1436,7 +1483,7 @@ export default class Battery extends Component {
     })
 
     this.phARearBox.transition()
-    .duration(500)
+    .duration(duration)
     .attr('fill',colorScale(value.rearphA));
 
     this.phBRearTemperatureText.transition()
@@ -1459,7 +1506,7 @@ export default class Battery extends Component {
     })
 
     this.phBRearBox.transition()
-    .duration(500)
+    .duration(duration)
     .attr('fill',colorScale(value.rearphB));
 
     this.phCRearTemperatureText.transition()
@@ -1482,7 +1529,7 @@ export default class Battery extends Component {
     })
 
     this.phCRearBox.transition()
-    .duration(500)
+    .duration(duration)
     .attr('fill',colorScale(value.rearphC));
 
     this.coolantRearTemperatureText.transition()
@@ -1505,7 +1552,7 @@ export default class Battery extends Component {
     })
 
     this.coolantRearBox.transition()
-    .duration(500)
+    .duration(duration)
     .attr('fill',colorScale(value.rearcoolant));
   }
 

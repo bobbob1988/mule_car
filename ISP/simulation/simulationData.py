@@ -27,7 +27,7 @@ def setValue():
 
 
 def setTepValue():
-    threading.Timer(10, setTepValue).start()
+    threading.Timer(0.05, setTepValue).start()
 
     r = redis.StrictRedis(host='10.21.51.156', port=6379, db=0)
 
@@ -41,15 +41,19 @@ def setTepValue():
     json_data_temperature = json.dumps(temperature)
     r.set('thermal', json_data_temperature)
 
-
     batteryData = {'battery_mile': 500, 'battery_percentage': random.randint(0, 100)}
-    vehicleData = {'vehicleSpeed':188.7, 'stateOfCharge':33.7, 'timestamp':0}
-
+    vehicleData = {'vehicleSpeed':random.randint(-50,200), 'stateOfCharge':33.7, 'vehicleGear': 3, 'timestamp':0}
+    frontMotorData = {'frontMotorTorque':random.uniform(-40,400)}
+    rearMotorData = {'rearMotorTorque':random.uniform(-40,400)}
 
     json_data = json.dumps(batteryData)
     json_vehicle_data = json.dumps(vehicleData)
+    json_front_data = json.dumps(frontMotorData)
+    json_rear_data = json.dumps(rearMotorData)
     r.set('battery_status', json_data)
     r.set('VehicleState', json_vehicle_data)
+    r.set('testFrontMotorData', json_front_data)
+    r.set('testRearMotorData', json_rear_data)
 
 def setFlagValue():
     threading.Timer(1, setFlagValue).start()

@@ -467,6 +467,7 @@ export default class RpmGauge extends Component {
   }
 
   setValue(value, duration) {
+    value = Math.abs(parseFloat(value).toFixed(1)).toString();
     const minAngle = -150;
     const maxAngle = -10;
     const angleRange = maxAngle - minAngle;
@@ -511,6 +512,7 @@ export default class RpmGauge extends Component {
   }
 
   setValuePower(value, duration) {
+    value = parseFloat(value).toFixed(1).toString();
      // KW ticks angle range (positive part)
     const minAngle_kw_positive = 10;
     const maxAngle_kw_positive = 78;
