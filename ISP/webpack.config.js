@@ -6,6 +6,8 @@ require('babel-polyfill');
 
 module.exports = {
   entry: [
+  //'babel-polyfill' is used for async and await
+  'babel-polyfill',
   './src/index.js'
   ],
   module: {
