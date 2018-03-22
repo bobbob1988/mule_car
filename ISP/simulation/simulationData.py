@@ -7,7 +7,7 @@ import time
 def setValue():
     threading.Timer(1, setValue).start()
 
-    r = redis.StrictRedis(host='10.21.51.156', port=6379, db=0)
+    r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
 
     gear = ['P', 'N', 'R', 'D', 'S']
 
@@ -23,13 +23,13 @@ def setValue():
     motorData = {'frontMotorTorque': 50.8, 'rearMotorTorque': 300.8, 'frontMotorSpeed': 0,'frontMotorTemperature' : {'frontMotorWindingTemp1':0,'frontMotorWindingTemp2':0,'frontMotorCoolantTemp':0,'frontMotorSinkPhaseATemp':0,'frontMotorSinkPhaseBTemp':0,'frontMotorSinkPhaseCTemp':0},'timestamp':0}
 
     json_data = json.dumps(motorData)
-    r.set('MotorExample', json_data)
+    r.set('MotorExampleTest', json_data)
 
 
 def setTepValue():
     threading.Timer(0.05, setTepValue).start()
 
-    r = redis.StrictRedis(host='10.21.51.156', port=6379, db=0)
+    r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
 
     temperature = {'frontMotorSinkPhaseATemp': random.randint(-40, 20), 'frontMotorSinkPhaseBTemp': random.randint(-40, 216),
                                     'frontMotorSinkPhaseCTemp': random.randint(-40, 216), 'frontMotorCoolantTemp': random.randint(-40, 100),
@@ -58,7 +58,7 @@ def setTepValue():
 def setFlagValue():
     threading.Timer(1, setFlagValue).start()
 
-    r = redis.StrictRedis(host='10.21.51.156', port=6379, db=0)
+    r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
     flag = {'flag': 0}
     data = json.dumps(flag)
     r.set('flag', data)
