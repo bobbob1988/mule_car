@@ -57,10 +57,8 @@ class Battery extends Component {
     var self = this;
     var modules = [];
     for (var key in self.state.batteries){
-      //this.state.batteries.forEach(function(data, key){
       var data = self.state.batteries[key];
       var mid = parseInt(key) + 1;
-      //var mid = self.battery_module_ids[key];
       var conf = self.battery_module_conf[mid.toString()];
       modules.push
         (<BatteryModule mid={mid} data={data} conf={conf} key={"m:"+mid} />);
@@ -79,6 +77,20 @@ class Battery extends Component {
           <rect x="700" y="100" width="20" height="50" rx="3" ry="3" fill="grey" />
           <rect x="700" y="250" width="20" height="50" rx="3" ry="3" fill="grey" />
           {this.renderBatteryModules()}
+        </g>
+        <g transform="translate(10, 410)">
+          <g transform="translate(0,0)">
+            <rect x="0" y="0" width="75" height="20" rx="2" ry="2" fill="yellowgreen" />
+            <text x="5" y="14" fill="darkslateblue" fontFamily="Agency FB" fontSize="12"> voltage &gt; 3.5 </text>
+          </g>
+          <g transform="translate(90,0)">
+            <rect x="0" y="0" width="115" height="20" rx="2" ry="2" fill="khaki" />
+            <text x="5" y="14" fill="darkslateblue" fontFamily="Agency FB" fontSize="12">  3.0 &lt;= voltage &lt;= 3.5 </text>
+          </g>
+          <g transform="translate(220,0)">
+            <rect x="0" y="0" width="75" height="20" rx="2" ry="2" fill="tomato" />
+            <text x="5" y="14" fill="darkslateblue" fontFamily="Agency FB" fontSize="12">  voltage &lt; 3.5 </text>
+          </g>
         </g>
       </svg> </div>
     );

@@ -15,7 +15,7 @@ class BatteryModule extends Component {
     var cellVolts = [];
     for (var key in cells){
       var i = parseInt(key)-1;
-      var volt = cells[key];
+      var volt = cells[key].toFixed(2);
       cellVolts.push(<text x="0" y={15*i} fill="darkslateblue" fontFamily="Agency FB" fontSize="11" key={"k:"+i} >
                v{i+1}: {volt}
              </text>);
@@ -31,7 +31,7 @@ class BatteryModule extends Component {
     var cellTemps = [];
     for (var key in temps){
       var i = parseInt(key)-1;
-      var temp = temps[key];
+      var temp = temps[key].toFixed(2);
       cellTemps.push(<text x="0" y={15*i} fill="darkslateblue" fontFamily="Agency FB" fontSize="11" key={"k:"+i} >
                t{i+1}: {temp}
              </text>);
@@ -51,11 +51,15 @@ class BatteryModule extends Component {
     for(var key in data){
       if (key.startsWith("cell")){
         var cellId = parseInt(key.replace("cellGroup", "").replace("Volt", ""));
-        cells[cellId] = parseFloat(data[key]);
+        if (this.props.conf.type == "F" || cellId <= 4){
+          cells[cellId] = parseFloat(data[key]);
+        }
       }
       else if (key.startsWith("temp")){
         var tempId = parseInt(key.replace("tempSensor", ""));
-        temps[tempId] = parseFloat(data[key]);
+        if (this.props.conf.type == "F" || tempId <= 2){
+          temps[tempId] = parseFloat(data[key]);
+        }
       }
     }
 
