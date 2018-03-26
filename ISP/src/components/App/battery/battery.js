@@ -6,9 +6,10 @@ class Battery extends Component {
 
   constructor() {
     super();
-    this.updateInterval = 5000;
-    this.fetchUrlPrefix = "http://10.21.51.156:7379/HGETALL/BatteryModuleInfo";
+    this.updateInterval = 1000;
+    //this.fetchUrlPrefix = "http://10.21.51.156:7379/HGETALL/BatteryModuleInfo";
     //this.fetchUrlPrefix = "http://127.0.0.1:7379/HGETALL/BatteryModuleInfo";
+    this.fetchUrlPrefix = "http://10.0.75.2:7379/HGETALL/BatteryModuleInfo";
     var battery_module_ids = ["13", "12", "11", "10", "9", "8", "7",
                                     "1",  "2",  "3",  "4", "5", "6"];
     this.battery_module_ids = battery_module_ids;
@@ -76,7 +77,7 @@ class Battery extends Component {
     //console.log("RENDER: " + this.state.batteries.size);
     return (
       //Adjust to the Microsoft Surface Book 
-      <div class="battery-layout"><svg width = "1000" height = "700" viewBox="0 0 800 400">
+      <div class="battery-layout"><svg width = "950" height = "700" viewBox="0 0 750 400">
         <g>
           <rect width="700" height="400" rx="4" ry="4" fill="darkgray" stroke="grey" strokeWidth="5" />
           <rect x="700" y="100" width="20" height="50" rx="3" ry="3" fill="grey" />

@@ -28,10 +28,12 @@ export default class Battery extends Component {
       };
     this.subscription = null;
     //this.updateInterval = 1000;
-    this.frontMotorfetchUrl = "http://10.21.51.156:7379/GET/FrontMotorData";
-    this.rearMotorfetchUrl = "http://10.21.51.156:7379/GET/RearMotorData";
+    //this.frontMotorfetchUrl = "http://10.21.51.156:7379/GET/FrontMotorData";
+    //this.rearMotorfetchUrl = "http://10.21.51.156:7379/GET/RearMotorData";
     //this.frontMotorfetchUrl = "http://127.0.0.1:7379/GET/FrontMotorData";
     //this.rearMotorfetchUrl = "http://127.0.0.1:7379/GET/RearMotorData";
+    this.frontMotorfetchUrl = "http://10.0.75.2:7379/GET/FrontMotorData";
+    this.rearMotorfetchUrl = "http://10.0.75.2:7379/GET/RearMotorData";
   }
 
   async fetchURLs() {
@@ -60,7 +62,7 @@ export default class Battery extends Component {
         rearphA: `${data[1].rearMotorTemperature.rearMotorSinkPhaseATemp}`, rearphB: `${data[1].rearMotorTemperature.rearMotorSinkPhaseBTemp}`, rearphC: `${data[1].rearMotorTemperature.rearMotorSinkPhaseCTemp}`,
         rearcoolant:`${data[1].rearMotorTemperature.rearMotorCoolantTemp}`, rearwinding1: `${data[1].rearMotorTemperature.rearMotorWindingTemp1}`, rearwinding2: `${data[1].rearMotorTemperature.rearMotorWindingTemp2}`
      });
-       console.log(self.state);
+       //console.log(self.state);
       } catch (error) {
         console.log(error);
       }
@@ -104,7 +106,7 @@ export default class Battery extends Component {
     this.generate();
     const self = this;
     this.subscription = Observable
-     .interval(100)
+     .interval(200)
      .timeInterval()
      .subscribe(() => {
       self.fetchURLs();
@@ -177,7 +179,7 @@ export default class Battery extends Component {
     .attr('opacity', '0.9')
     .attr('fill', colors[0])
     .attr('x', -svgHeight /12)
-    .attr('y', '4.5%')
+    .attr('y', '4%')
     .attr('transform', `rotate(${-90})`)
     .style('position', 'absolute')
     .attr('font-weight', 'bold')
@@ -1224,8 +1226,8 @@ export default class Battery extends Component {
     .attr('text-anchor', 'middle')
     .attr('opacity', '0.9')
     .attr('fill', colors[0])
-    .attr('x', '-12%')
-    .attr('y', '10%')
+    .attr('x', '-13%')
+    .attr('y', '9%')
     .attr('transform', `rotate(${-90})`)
     .style('position', 'absolute')
     .attr('font-weight', 'bold')

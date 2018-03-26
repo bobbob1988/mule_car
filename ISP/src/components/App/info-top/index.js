@@ -51,8 +51,8 @@ export default class InfoTop extends Component {
     .attr('text-anchor', 'middle')
     .attr('opacity', '0.9')
     .attr('fill', colors[2])
-    .attr('x', '25%')
-    .attr('y', '-10%')
+    .attr('x', '32%')
+    .attr('y', '-9%')
     .style('position', 'relative')
     .style('z-index', '10');
 
@@ -92,6 +92,7 @@ export default class InfoTop extends Component {
   setGear(value) {
     this.gearText.transition()
     .text(function(d){
+      //console.log(value);
       var gearString = "";
       switch(parseInt(value)){
         case 0:
@@ -107,7 +108,7 @@ export default class InfoTop extends Component {
           gearString = "D";
           break;
         default:
-          gearString = "";
+          gearString = "P";
       }
       return gearString;
     });
@@ -115,9 +116,9 @@ export default class InfoTop extends Component {
 
   setBatteryMile(value) {
     var mileage = value.battery_status;
-    var percentage = parseFloat(value.battery_percentage).toFixed(2); 
+    var percentage = parseFloat(value.battery_percentage).toFixed(0); 
     this.batteryNumber.transition()
-    .text(`${mileage}` + ' mi  ' + `${percentage}` + '%');
+    .text(`${percentage}` + '%');
 
     // this.batteryImage.transition()
     // .attr('xlink:href', function(d){
