@@ -19,6 +19,11 @@ func myRedisClient(hostname string)(*redis.Client){
 	return client
 }
 
+func setCORSHeaders(c *gin.Context){
+	c.Header("Access-Control-Allow-Origin", "*")
+	c.Header("Access-Control-Allow-Headers", "access-control-allow-origin, access-control-allow-headers")
+}
+
 func main() {
 	hostname := "127.0.0.1"
 	if len(os.Args) > 1  {
@@ -33,6 +38,7 @@ func main() {
 	}
 	r := gin.Default()
 	r.GET("/GET/:key", func(c *gin.Context){
+		setCORSHeaders(c)
 		key := c.Param("key")
 		val, err := client.Get(key).Result()
 		if err == nil {
@@ -44,6 +50,7 @@ func main() {
 		}
 	})
 	r.GET("/HGETALL/:key", func(c *gin.Context){
+		setCORSHeaders(c)
 		key := c.Param("key")
 		val, err := client.HGetAll(key).Result()
 		if err == nil {
@@ -55,6 +62,7 @@ func main() {
 		}
 	})
 	r.GET("/SET/:key/:value", func(c *gin.Context){
+		setCORSHeaders(c)
 		key := c.Param("key")
 		value := c.Param("value")
 		err := client.Set(key, value, 0).Err()
