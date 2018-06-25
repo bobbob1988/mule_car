@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: ptmonitor
+server:
+  port: 3303
+
+logging:
+  level.org.springframework.boot.autoconfigure=ERROR
+
+ptmonitor:
+  config:
+    ptcan: test.json
+    signame: sigtable.properties
