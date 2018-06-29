@@ -26,14 +26,14 @@ public class BatteryModuleFactory {
             int muxId = (moduleId - 1) * 2 + ((blockId -1) / 6);
             String blockVoltKey = String.format(sigNameMapper.getProp(MODULE_VOLT_PROP), moduleId, blockId, muxId);
             Optional<Float> cellVolt = Optional.ofNullable(ptSignalUtil.getSignalBySigName(blockVoltKey));
-            cellBlockVolt.put("block-"+blockId, cellVolt.orElse(Float.valueOf(0)));
+            cellBlockVolt.put("block_"+blockId, cellVolt.orElse(Float.valueOf(0)));
         }
         Map<String, Float> moduleTemp = new HashMap<>();
         for (int sensorId=1; sensorId<=5; sensorId++) {
             int muxId = moduleId - 1;
             String tempSensorKey = String.format(sigNameMapper.getProp(MODULE_TEMP_PROP), moduleId, sensorId, muxId);
             Optional<Float> sensorTemp = Optional.ofNullable(ptSignalUtil.getSignalBySigName(tempSensorKey));
-            moduleTemp.put("sensor-"+sensorId, sensorTemp.orElse(Float.valueOf(0)));
+            moduleTemp.put("sensor_"+sensorId, sensorTemp.orElse(Float.valueOf(0)));
         }
         BatteryModule batteryModule = BatteryModule.builder()
                 .moduleId(moduleId)

@@ -32,13 +32,13 @@ public class RedisUpdater {
         Map<String, BatteryModule> batteryModules = new HashMap<>();
         for (int moduleId = 1; moduleId <= 13; moduleId++){
             BatteryModule batteryModule = batteryModuleFactory.buildBatteryModule(moduleId);
-            batteryModules.put("module-"+ moduleId, batteryModule);
+            batteryModules.put("module_"+ moduleId, batteryModule);
         }
         redisTemplate.opsForValue().set(BATTERY_STATUS_KEY, batteryModules);
         Map<String, ThermoState> thermoStates = new HashMap<>();
         for (String mcuId : MCU_IDS){
             ThermoState thermoState = thermoStateFactory.buildThermoStae(mcuId);
-            thermoStates.put("MCU-"+mcuId, thermoState);
+            thermoStates.put("MCU_"+mcuId, thermoState);
         }
         redisTemplate.opsForValue().set(THERMO_STATUS_KEY, thermoStates);
         System.out.println("1Hz thread elapse: " + (System.currentTimeMillis() - startTime));
