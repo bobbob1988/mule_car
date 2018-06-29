@@ -7,9 +7,7 @@ class Battery extends Component {
   constructor() {
     super();
     this.updateInterval = 1000;
-    //this.fetchUrlPrefix = "http://10.21.51.156:7379/HGETALL/BatteryModuleInfo";
-    //this.fetchUrlPrefix = "http://127.0.0.1:7379/HGETALL/BatteryModuleInfo";
-    this.fetchUrlPrefix = "http://10.0.75.2:7379/HGETALL/BatteryModuleInfo";
+    this.fetchBatteryUrl = "http://localhost:7379/GET/BatteryState";
     var battery_module_ids = ["13", "12", "11", "10", "9", "8", "7",
                                     "1",  "2",  "3",  "4", "5", "6"];
     this.battery_module_ids = battery_module_ids;
@@ -39,9 +37,11 @@ class Battery extends Component {
 
   updateBatteryStatus() {
     const self = this;
-    fetch(self.fetchUrlPrefix).then(res => res.text()).then(body => {
-      var json = JSON.parse(body);
-      self.setState({batteries: json["HGETALL"]});
+    fetch(self.fetchBatteryUrl)
+      .catch(err => console.log(err))
+      .then(res => res.json())
+      .then(json => {
+          self.setState({batteries: JSON.parse(json["GET"])});
     });
   }
 
@@ -58,14 +58,13 @@ class Battery extends Component {
   renderBatteryModules() {
     var self = this;
     var modules = [];
-    for (var key in self.state.batteries){
-      //this.state.batteries.forEach(function(data, key){
-      var data = self.state.batteries[key];
-      var mid = parseInt(key) + 1;
-      //var mid = self.battery_module_ids[key];
-      var conf = self.battery_module_conf[mid.toString()];
+    for (var key in self.battery_module_ids){
+      var mid = self.battery_module_ids[key];
+      var mkey = "module_" + mid
+      var mdata = self.state.batteries[mkey];
+      var mconf = self.battery_module_conf[mid];
       modules.push
-        (<BatteryModule mid={mid} data={data} conf={conf} key={"m:"+mid} />);
+        (<BatteryModule mid={mkey} data={mdata} conf={mconf} key={"m:"+mid} />);
     }
     return modules;
   }
@@ -74,7 +73,6 @@ class Battery extends Component {
     if (!this.state || !this.state.batteries ){
       return null;
     }
-    //console.log("RENDER: " + this.state.batteries.size);
     return (
       //Adjust to the Microsoft Surface Book 
       <div class="battery-layout"><svg width = "950" height = "700" viewBox="0 0 750 400">

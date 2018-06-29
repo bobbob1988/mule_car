@@ -27,80 +27,41 @@ export default class Battery extends Component {
         rearwinding2: 0,
       };
     this.subscription = null;
-    //this.updateInterval = 1000;
-    //this.frontMotorfetchUrl = "http://10.21.51.156:7379/GET/FrontMotorData";
-    //this.rearMotorfetchUrl = "http://10.21.51.156:7379/GET/RearMotorData";
-    //this.frontMotorfetchUrl = "http://127.0.0.1:7379/GET/FrontMotorData";
-    //this.rearMotorfetchUrl = "http://127.0.0.1:7379/GET/RearMotorData";
-    this.frontMotorfetchUrl = "http://10.0.75.2:7379/GET/FrontMotorData";
-    this.rearMotorfetchUrl = "http://10.0.75.2:7379/GET/RearMotorData";
+    this.thermoFetchUrl = "http://localhost:7379/GET/ThermoState";
   }
 
   async fetchURLs() {
       const self = this;
       try {
-      // Promise.all() lets us coalesce multiple promises into a single super-promise
-      var data = await Promise.all([
-        fetch(self.frontMotorfetchUrl).then((response) => response.json()).then((json) => {
-        if (json["GET"]){
-          return JSON.parse(json["GET"]);
-         }else {
-          console.log("no data");
-         }
-       }),// parse each response as json
-        fetch(self.rearMotorfetchUrl).then((response) => response.json()).then((json) => {
-        if (json["GET"]){
-          return JSON.parse(json["GET"]);
-         }else {
-          console.log("no data");
-         }
-       })
-      ]);
-
-      self.setState({frontphA: `${data[0].frontMotorTemperature.frontMotorSinkPhaseATemp}`, frontphB: `${data[0].frontMotorTemperature.frontMotorSinkPhaseBTemp}`, frontphC: `${data[0].frontMotorTemperature.frontMotorSinkPhaseCTemp}`,
-        frontcoolant:`${data[0].frontMotorTemperature.frontMotorCoolantTemp}`, frontwinding1: `${data[0].frontMotorTemperature.frontMotorWindingTemp1}`, frontwinding2: `${data[0].frontMotorTemperature.frontMotorWindingTemp2}`,
-        rearphA: `${data[1].rearMotorTemperature.rearMotorSinkPhaseATemp}`, rearphB: `${data[1].rearMotorTemperature.rearMotorSinkPhaseBTemp}`, rearphC: `${data[1].rearMotorTemperature.rearMotorSinkPhaseCTemp}`,
-        rearcoolant:`${data[1].rearMotorTemperature.rearMotorCoolantTemp}`, rearwinding1: `${data[1].rearMotorTemperature.rearMotorWindingTemp1}`, rearwinding2: `${data[1].rearMotorTemperature.rearMotorWindingTemp2}`
-     });
+          fetch(self.thermoFetchUrl)
+          .catch(err => console.log(err))
+          .then(res => res.json())
+          .then(json => {
+            if (json["GET"]){
+              var data = JSON.parse(json["GET"]);
+              var mcu_f0 = data["MCU_F0"]["temperatures"];
+              var mcu_r0 = data["MCU_R0"]["temperatures"];
+              self.setState({
+                  frontphA: `${mcu_f0.HeatSinkPhA}`, 
+                  frontphB: `${mcu_f0.HeatSinkPhB}`, 
+                  frontphC: `${mcu_f0.HeatSinkPhC}`, 
+                  frontcoolant:`${mcu_f0.Coolant}`, 
+                  frontwinding1: `${mcu_f0.EndWinding1}`,
+                  frontwinding2: `${mcu_f0.EndWinding2}`,
+                  rearphA: `${mcu_r0.HeatSinkPhA}`, 
+                  rearphB: `${mcu_r0.HeatSinkPhB}`, 
+                  rearphC: `${mcu_r0.HeatSinkPhC}`, 
+                  rearcoolant:`${mcu_r0.Coolant}`, 
+                  rearwinding1: `${mcu_r0.EndWinding1}`,
+                  rearwinding2: `${mcu_r0.EndWinding2}`
+              });
+            }
+          });
        //console.log(self.state);
       } catch (error) {
         console.log(error);
       }
     }
-
-
-
-  // updateStatus() {
-  //   const self = this;
-  //   fetch(self.frontMotorfetchUrl)
-  //   .catch(err => console.log(err))
-  //   .then(res => res.json())
-  //   .then(json => {
-  //     if (json["GET"]){
-  //       var data = JSON.parse(json["GET"]);
-  //       self.setState({frontphA: `${data.frontMotorTemperature.frontMotorSinkPhaseATemp}`, frontphB: `${data.frontMotorTemperature.frontMotorSinkPhaseBTemp}`, frontphC: `${data.frontMotorTemperature.frontMotorSinkPhaseCTemp}`,
-  //       frontcoolant:`${data.frontMotorTemperature.frontMotorCoolantTemp}`, frontwinding1: `${data.frontMotorTemperature.frontMotorWindingTemp1}`, frontwinding2: `${data.frontMotorTemperature.frontMotorWindingTemp2}`
-  //     });
-  //     } else {
-  //       console.log("no data");
-  //     }
-  //   });
-
-  //   fetch(self.rearMotorfetchUrl)
-  //   .catch(err => console.log(err))
-  //   .then(res => res.json())
-  //   .then(json => {
-  //     if (json["GET"]){
-  //       var data = JSON.parse(json["GET"]);
-  //       self.setState({
-  //       rearphA: `${data.rearMotorTemperature.rearMotorSinkPhaseATemp}`, rearphB: `${data.rearMotorTemperature.rearMotorSinkPhaseBTemp}`, rearphC: `${data.rearMotorTemperature.rearMotorSinkPhaseCTemp}`,
-  //       rearcoolant:`${data.rearMotorTemperature.rearMotorCoolantTemp}`, rearwinding1: `${data.rearMotorTemperature.rearMotorWindingTemp1}`, rearwinding2: `${data.rearMotorTemperature.rearMotorWindingTemp2}`
-  //     });
-  //     } else {
-  //       console.log("no data");
-  //     }
-  //   });
-  // }
 
   componentDidMount() {
     this.generate();

@@ -92,24 +92,7 @@ export default class InfoTop extends Component {
   setGear(value) {
     this.gearText.transition()
     .text(function(d){
-      //console.log(value);
-      var gearString = "";
-      switch(parseInt(value)){
-        case 0:
-          gearString = "P";
-          break;
-        case 1:
-          gearString = "R";
-          break;
-        case 2:
-          gearString = "N";
-          break;
-        case 3:
-          gearString = "D";
-          break;
-        default:
-          gearString = "P";
-      }
+      var gearString = value;
       return gearString;
     });
   }

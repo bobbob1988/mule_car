@@ -16,7 +16,7 @@ class BatteryModule extends Component {
     for (var key in cells){
       var i = parseInt(key)-1;
       var volt = parseFloat(cells[key]).toFixed(2).toString();
-      cellVolts.push(<text x="0" y={15*i} fill="darkslateblue" fontFamily="Agency FB" fontSize="11" key={"k:"+i} >
+      cellVolts.push(<text x="0" y={14*i} fill="darkslateblue" fontFamily="Agency FB" fontSize="11" key={"k:"+i} >
                v{i+1}: {volt}
              </text>);
     }
@@ -45,17 +45,22 @@ class BatteryModule extends Component {
   }
 
   render() {
-    var data = JSON.parse(this.state.data);
-    var cells = {}
-    var temps = {}
-    for(var key in data){
-      if (key.startsWith("cell")){
-        var cellId = parseInt(key.replace("cellGroup", "").replace("Volt", ""));
-        cells[cellId] = parseFloat(data[key]);
+   
+    var data = this.state.data;
+    var cells = {};
+    var temps = {};
+    for(var key in data["cellBlockVolt"]){
+      var cellId = parseInt(key.replace("block_", ""));
+      var volt = parseFloat(data["cellBlockVolt"][key]);
+      if (!isNaN(volt)) {
+        cells[cellId] = volt;
       }
-      else if (key.startsWith("temp")){
-        var tempId = parseInt(key.replace("tempSensor", ""));
-        temps[tempId] = parseFloat(data[key]);
+    }
+    for (var key in data["tempSensor"]){
+      var tempId = parseInt(key.replace("sensor_", ""));
+      var temp = parseFloat(data["tempSensor"][key]);
+      if (!isNaN(temp)) {
+        temps[tempId] = temp;
       }
     }
 
@@ -81,6 +86,9 @@ class BatteryModule extends Component {
     return (
         <g transform={"translate(" + x + ", " + y + ")"}>
           <rect width={this.props.conf.w} height={this.props.conf.h} rx="5" ry="5" x="0" y="0" fill={color} stroke="lightgrey" strokeWidth="2" />
+          <text x={this.props.conf.w/2 - 25} y="6" fill="darkslateblue" fontFamily="Agency FB" fontSize="14">
+            [{mid}]
+          </text>
           {this.renderVolts(cells)}
           {this.renderTemps(temps)}
           // average voltage
@@ -98,9 +106,6 @@ class BatteryModule extends Component {
             </text>
           </g>
           //module id
-          <text x="5" y={this.props.conf.h - 5} fill="darkslateblue" fontFamily="Agency FB" fontSize="14">
-            [{mid}]
-          </text>
         </g>
     )
   }

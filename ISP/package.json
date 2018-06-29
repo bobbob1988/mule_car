@@ -33,7 +33,7 @@
     "font-awesome": "^4.7.0",
     "geolocation": "^0.2.0",
     "image-webpack-loader": "^4.0.0",
-    "node-fetch": "^2.0.0",
+    "node-fetch": "^2.1.0",
     "node-sass": "^4.9.0",
     "prop-types": "^15.6.0",
     "raf": "^3.3.2",
