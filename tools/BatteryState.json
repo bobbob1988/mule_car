@@ -1,0 +1,367 @@
+{
+  "module_9": {
+    "timestamp": 1530235035066, 
+    "tempSensor": {
+      "sensor_3": 0.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 0.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 2.5, 
+      "block_11": 5.0, 
+      "block_10": 2.5, 
+      "block_12": 5.0, 
+      "block_9": 2.5, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 2.5, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 9
+  }, 
+  "module_8": {
+    "timestamp": 1530235035066, 
+    "tempSensor": {
+      "sensor_3": 0.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 0.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 2.5, 
+      "block_11": 5.0, 
+      "block_10": 2.5, 
+      "block_12": 5.0, 
+      "block_9": 2.5, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 2.5, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 8
+  }, 
+  "module_5": {
+    "timestamp": 1530235035066, 
+    "tempSensor": {
+      "sensor_3": 0.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 0.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 2.5, 
+      "block_11": 5.0, 
+      "block_10": 2.5, 
+      "block_12": 5.0, 
+      "block_9": 2.5, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 2.5, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 5
+  }, 
+  "module_4": {
+    "timestamp": 1530235035066, 
+    "tempSensor": {
+      "sensor_3": 0.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 0.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 2.5, 
+      "block_11": 5.0, 
+      "block_10": 2.5, 
+      "block_12": 5.0, 
+      "block_9": 2.5, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 2.5, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 4
+  }, 
+  "module_7": {
+    "timestamp": 1530235035066, 
+    "tempSensor": {
+      "sensor_3": 0.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 0.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 2.5, 
+      "block_11": 5.0, 
+      "block_10": 2.5, 
+      "block_12": 5.0, 
+      "block_9": 2.5, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 2.5, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 7
+  }, 
+  "module_6": {
+    "timestamp": 1530235035066, 
+    "tempSensor": {
+      "sensor_3": 0.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 0.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 2.5, 
+      "block_11": 5.0, 
+      "block_10": 2.5, 
+      "block_12": 5.0, 
+      "block_9": 2.5, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 2.5, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 6
+  }, 
+  "module_1": {
+    "timestamp": 1530235035065, 
+    "tempSensor": {
+      "sensor_3": 215.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 215.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 5.0, 
+      "block_11": 5.0, 
+      "block_10": 5.0, 
+      "block_12": 5.0, 
+      "block_9": 5.0, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 5.0, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 1
+  }, 
+  "module_3": {
+    "timestamp": 1530235035065, 
+    "tempSensor": {
+      "sensor_3": 0.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 0.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 2.5, 
+      "block_11": 5.0, 
+      "block_10": 2.5, 
+      "block_12": 5.0, 
+      "block_9": 2.5, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 2.5, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 3
+  }, 
+  "module_2": {
+    "timestamp": 1530235035065, 
+    "tempSensor": {
+      "sensor_3": 0.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 0.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 2.5, 
+      "block_11": 5.0, 
+      "block_10": 2.5, 
+      "block_12": 5.0, 
+      "block_9": 2.5, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 2.5, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 2
+  }, 
+  "module_11": {
+    "timestamp": 1530235035066, 
+    "tempSensor": {
+      "sensor_3": 0.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 0.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 2.5, 
+      "block_11": 5.0, 
+      "block_10": 2.5, 
+      "block_12": 5.0, 
+      "block_9": 2.5, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 2.5, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 11
+  }, 
+  "module_10": {
+    "timestamp": 1530235035066, 
+    "tempSensor": {
+      "sensor_3": 0.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 0.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 2.5, 
+      "block_11": 5.0, 
+      "block_10": 2.5, 
+      "block_12": 5.0, 
+      "block_9": 2.5, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 2.5, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 10
+  }, 
+  "module_13": {
+    "timestamp": 1530235035067, 
+    "tempSensor": {
+      "sensor_3": 0.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 0.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 2.5, 
+      "block_11": 5.0, 
+      "block_10": 2.5, 
+      "block_12": 5.0, 
+      "block_9": 2.5, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 2.5, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 13
+  }, 
+  "module_12": {
+    "timestamp": 1530235035067, 
+    "tempSensor": {
+      "sensor_3": 215.0, 
+      "sensor_2": 0.0, 
+      "sensor_1": 0.0, 
+      "sensor_5": 215.0, 
+      "sensor_4": 215.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "cellBlockVolt": {
+      "block_8": 5.0, 
+      "block_11": 5.0, 
+      "block_10": 5.0, 
+      "block_12": 5.0, 
+      "block_9": 5.0, 
+      "block_3": 2.5, 
+      "block_5": 5.0, 
+      "block_4": 2.5, 
+      "block_7": 5.0, 
+      "block_6": 5.0, 
+      "block_1": 2.5, 
+      "@class": "java.util.HashMap", 
+      "block_2": 2.5
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.BatteryModule", 
+    "moduleId": 12
+  }, 
+  "@class": "java.util.HashMap"
+}
