@@ -1,0 +1,9 @@
+{
+  "rearMotorTorque": 0.0, 
+  "vehicleSpeed": 0.0, 
+  "timestamp": 1530235035264, 
+  "stateOfCharge": 0.0, 
+  "frontMotorTorque": 0.0, 
+  "vehicleGear": "7", 
+  "@class": "com.sfmotors.cloud.ptmonitor.redis.VehicleStatus"
+}

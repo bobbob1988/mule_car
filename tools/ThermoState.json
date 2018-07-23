@@ -1,0 +1,29 @@
+{
+  "MCU_F0": {
+    "timestamp": 1530235035068, 
+    "temperatures": {
+      "HeatSinkPhA": -40.0, 
+      "Coolant": -40.0, 
+      "EndWinding2": 215.5, 
+      "HeatSinkPhB": -40.0, 
+      "HeatSinkPhC": -40.0, 
+      "EndWinding1": 215.5, 
+      "@class": "java.util.HashMap"
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.ThermoState"
+  }, 
+  "MCU_R0": {
+    "timestamp": 1530235035068, 
+    "temperatures": {
+      "HeatSinkPhA": 0.0, 
+      "Coolant": 0.0, 
+      "EndWinding2": 0.0, 
+      "HeatSinkPhB": 0.0, 
+      "HeatSinkPhC": 0.0, 
+      "EndWinding1": 0.0, 
+      "@class": "java.util.HashMap"
+    }, 
+    "@class": "com.sfmotors.cloud.ptmonitor.redis.ThermoState"
+  }, 
+  "@class": "java.util.HashMap"
+}
