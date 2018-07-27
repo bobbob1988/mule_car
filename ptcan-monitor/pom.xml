@@ -34,26 +34,11 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>2.0.8.RELEASE</version>
 		</dependency>
-		<!--
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-batch</artifactId>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>25.1-jre</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-quartz</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.retry</groupId>
-			<artifactId>spring-retry</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.shell</groupId>
-			<artifactId>spring-shell-starter</artifactId>
-			<version>2.0.0.RELEASE</version>
-		</dependency>
-		-->
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

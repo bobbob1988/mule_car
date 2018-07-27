@@ -1,7 +1,10 @@
 package com.sfmotors.cloud.ptmonitor;
 
+import com.sfmotors.cloud.ptmonitor.cloud.DataLogger;
+import com.sfmotors.cloud.ptmonitor.cloud.LogEntry;
 import com.sfmotors.cloud.ptmonitor.comm.PTMessage;
 import com.sfmotors.cloud.ptmonitor.comm.PTSignalConfManager;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import peak.can.basic.*;
@@ -18,6 +21,9 @@ public class PTCANWorker implements Runnable{
     @Autowired
     private PTCanBus ptCanBus;
 
+    @Autowired
+    private DataLogger dataLogger;
+
 
     public void run() {
         PCANBasic pcanBasic = ptCanBus.getPcanBasic();
@@ -32,13 +38,19 @@ public class PTCANWorker implements Runnable{
                 // Normal Message
                 if (!signalConfManager.isMuxMessage(msgId)) {
                     String id = String.valueOf(msgId);
-                    ptDataCache.set(id, new PTMessage(id, msg.getData()));
+                    byte[] data = msg.getData();
+                    ptDataCache.set(id, new PTMessage(id, data));
+                    LogEntry logEntry = LogEntry.builder().msgId(id).data(data).timestamp(timestamp.getMillis()).build();
+                    dataLogger.addMessage(logEntry);
                 }
                 // Mux Message
                 else {
                     int muxId = PTMessage.getMuxId(msg.getData(), signalConfManager.getMuxMessageConfig(msgId));
                     String id = String.valueOf(msgId) + "_m" + muxId;
-                    ptDataCache.set(id, new PTMessage(id, msg.getData()));
+                    byte[] data = msg.getData();
+                    ptDataCache.set(id, new PTMessage(id, data));
+                    LogEntry logEntry = LogEntry.builder().msgId(id).data(data).timestamp(timestamp.getMillis()).build();
+                    dataLogger.addMessage(logEntry);
                 }
             }
             //System.out.println("Worker thread elapse: " + (System.currentTimeMillis()-startTime));

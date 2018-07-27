@@ -5,9 +5,17 @@ server:
   port: 3303
 
 logging:
-  level.org.springframework.boot.autoconfigure=ERROR
+  file: logs/ptmonitor.log
+  level:
+    org.springframework.boot.autoconfigure: ERROR
+    com.sfmotors.cloud.ptmonitor: TRACE
+  pattern.console:
 
 ptmonitor:
   config:
     ptcan: test.json
     signame: sigtable.properties
+
+
+cloud:
+  alicloud: http://10.21.62.52:5000/upload

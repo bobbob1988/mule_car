@@ -1,5 +1,6 @@
 package com.sfmotors.cloud.ptmonitor.redis;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class RedisUpdater {
 
@@ -41,7 +43,7 @@ public class RedisUpdater {
             thermoStates.put("MCU_"+mcuId, thermoState);
         }
         redisTemplate.opsForValue().set(THERMO_STATUS_KEY, thermoStates);
-        System.out.println("1Hz thread elapse: " + (System.currentTimeMillis() - startTime));
+        log.debug("1Hz thread elapse: " + (System.currentTimeMillis() - startTime));
     }
 
 
@@ -50,6 +52,6 @@ public class RedisUpdater {
         long startTime = System.currentTimeMillis();
         VehicleStatus vehicleStatus = vehicleStatusFactory.buildVehicleStatus();
         redisTemplate.opsForValue().set(VEHICLE_STATUS_KEY, vehicleStatus);
-        System.out.println("5Hz thread elapse: " + (System.currentTimeMillis() - startTime));
+        log.debug("5Hz thread elapse: " + (System.currentTimeMillis() - startTime));
     }
 }
