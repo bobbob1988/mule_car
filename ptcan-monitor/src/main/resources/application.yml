@@ -13,7 +13,7 @@ logging:
 
 ptmonitor:
   config:
-    ptcan: test.json
+    ptcan: ptmessage.json
     signame: sigtable.properties
 
 

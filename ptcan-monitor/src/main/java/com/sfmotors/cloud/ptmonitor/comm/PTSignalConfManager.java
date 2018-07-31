@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.Map;
@@ -24,21 +25,28 @@ public class PTSignalConfManager {
     private String configFileName;
 
     @PostConstruct
-    protected void init() throws java.io.IOException {
-        String configFile = Paths.get(System.getProperty("user.home"), configFileName).toString();
-        File file = new File(configFile);
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode root = objectMapper.readTree(new File(configFile));
-        for (JsonNode node: root.get("allSignals")) {
-            PTSignalConf signal = objectMapper.treeToValue(node, PTSignalConf.class);
-            configTable.put(signal.getName(), signal);
-        }
-        Iterator<Map.Entry<String, JsonNode>> it = root.get("muxConfigs").fields();
-        while (it.hasNext()) {
-            Map.Entry<String, JsonNode> entry = it.next();
-            JsonNode value = entry.getValue();
-            PTMuxIdConfig ptMuxIdConfig = new PTMuxIdConfig(value.get(0).asInt(), value.get(1).asInt());
-            muxMsgIdConfig.put(Integer.parseInt(entry.getKey()), ptMuxIdConfig);
+    protected void init() throws IOException {
+        try {
+            String configFile = Paths.get(System.getProperty("user.home"), configFileName).toString();
+            File file = new File(configFile);
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode root = objectMapper.readTree(new File(configFile));
+            for (JsonNode node : root.get("allSignals")) {
+                PTSignalConf signal = objectMapper.treeToValue(node, PTSignalConf.class);
+                configTable.put(signal.getName(), signal);
+            }
+            Iterator<Map.Entry<String, JsonNode>> it = root.get("muxConfigs").fields();
+            while (it.hasNext()) {
+                Map.Entry<String, JsonNode> entry = it.next();
+                JsonNode value = entry.getValue();
+                PTMuxIdConfig ptMuxIdConfig = new PTMuxIdConfig(value.get(0).asInt(), value.get(1).asInt());
+                muxMsgIdConfig.put(Integer.parseInt(entry.getKey()), ptMuxIdConfig);
+            }
+            System.out.println("Successfully loaded CAN message configurations in ~/" + configFileName);
+        } catch (IOException e) {
+            System.err.println("Failed to load CAN message configurations in ~/" + configFileName);
+            System.out.println("Please use MuleConfig.py in firmware repository to generate the configuration json file");
+            throw e;
         }
     }
 
