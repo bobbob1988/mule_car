@@ -5,13 +5,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import javax.annotation.PostConstruct;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 @Slf4j
 @Component
@@ -26,6 +31,25 @@ public class CloudUploader {
 
     private RestTemplate restTemplate = new RestTemplate();
 
+    private Properties muleConfig = new Properties();
+    private String MULE_CONFIG_FILE = "mule.properties";
+
+    private String VIN;
+
+    @PostConstruct
+    protected void init() throws IOException {
+        try {
+            String propFile = Paths.get(System.getProperty("user.home"), MULE_CONFIG_FILE).toString();
+            this.muleConfig.load(new FileInputStream(propFile));
+            System.out.println("Loading mule car configuration file: ~/" + MULE_CONFIG_FILE);
+            this.VIN = muleConfig.getProperty("VIN");
+        } catch (IOException e) {
+            System.err.println("Cannot read mule car config file: ~/" + MULE_CONFIG_FILE + "\n" + e.getMessage());
+            System.err.println("You can find the sample configuration in gitroot/config directory");
+            throw e;
+        }
+    }
+
     //Upload every 5 seconds
     @Scheduled(fixedRate = 5000)
     public void uploadAliCloud(){
@@ -33,7 +57,10 @@ public class CloudUploader {
         // upload to cloud
         if (data.size() > 0) {
             log.debug("Uploading data size: " + data.size());
-            HttpEntity<EvictingQueue<LogEntry>> request = new HttpEntity<>(data);
+            Map<String, Object> postObj = new HashMap<>();
+            postObj.put("data", data);
+            postObj.put("vin", VIN);
+            HttpEntity<Map<String, Object>> request = new HttpEntity<>(postObj);
             try {
                 ResponseEntity<String> response = restTemplate.exchange(aliCloud, HttpMethod.POST, request, String.class);
                 if (response.getStatusCode() != HttpStatus.OK) {

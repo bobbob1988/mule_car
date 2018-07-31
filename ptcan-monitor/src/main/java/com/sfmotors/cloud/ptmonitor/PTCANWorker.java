@@ -8,12 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import peak.can.basic.*;
 
-import javax.annotation.PostConstruct;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Properties;
-
 @Component
 public class PTCANWorker implements Runnable{
 
@@ -28,26 +22,6 @@ public class PTCANWorker implements Runnable{
 
     @Autowired
     private DataLogger dataLogger;
-
-    private Properties muleConfig = new Properties();
-    private String MULE_CONFIG_FILE = "mule.properties";
-
-    private String VIN;
-
-    @PostConstruct
-    protected void init() throws IOException {
-        try {
-            String propFile = Paths.get(System.getProperty("user.home"), MULE_CONFIG_FILE).toString();
-            this.muleConfig.load(new FileInputStream(propFile));
-            System.out.println("Loading mule car configuration file: ~/" + MULE_CONFIG_FILE);
-            this.VIN = muleConfig.getProperty("VIN");
-        } catch (IOException e) {
-            System.err.println("Cannot read mule car config file: ~/" + MULE_CONFIG_FILE + "\n" + e.getMessage());
-            System.err.println("You can find the sample configuration in gitroot/config directory");
-            throw e;
-        }
-    }
-
 
     public void run() {
         PCANBasic pcanBasic = ptCanBus.getPcanBasic();
@@ -64,7 +38,7 @@ public class PTCANWorker implements Runnable{
                     String id = String.valueOf(msgId);
                     byte[] data = msg.getData();
                     ptDataCache.set(id, new PTMessage(id, data));
-                    LogEntry logEntry = LogEntry.builder().VIN(this.VIN).msgId(id).data(data).timestamp(timestamp.getMillis()).build();
+                    LogEntry logEntry = LogEntry.builder().msgId(id).data(data).timestamp(timestamp.getMillis()).build();
                     dataLogger.addMessage(logEntry);
                 }
                 // Mux Message
@@ -73,7 +47,7 @@ public class PTCANWorker implements Runnable{
                     String id = String.valueOf(msgId) + "_m" + muxId;
                     byte[] data = msg.getData();
                     ptDataCache.set(id, new PTMessage(id, data));
-                    LogEntry logEntry = LogEntry.builder().VIN(this.VIN).msgId(id).data(data).timestamp(timestamp.getMillis()).build();
+                    LogEntry logEntry = LogEntry.builder().msgId(id).data(data).timestamp(timestamp.getMillis()).build();
                     dataLogger.addMessage(logEntry);
                 }
             }
