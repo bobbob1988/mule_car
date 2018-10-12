@@ -14,7 +14,7 @@ import { app, BrowserWindow } from 'electron';
 import MenuBuilder from './menu';
 const fs = require('fs');
 
-process.env.GOOGLE_API_KEY = fs.readFileSync("google_key");
+//process.env.GOOGLE_API_KEY = fs.readFileSync("google_key");
 
 let mainWindow = null;
 

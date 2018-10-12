@@ -9,7 +9,7 @@
   import RpmGauge from '../rpm-gauge';
   import SpeedGauge from '../speed-gauge';
   var Redis = require('ioredis');
-  var redis = new Redis();
+  var redis = new Redis(6379, '10.21.62.52');
 
 
   export default class Dashboard extends Component {
@@ -34,24 +34,25 @@
     updateStatus(){
       const self = this;
       redis.get('VehicleState', function(err, result){
-          var data = JSON.parse(result);
-          self.setState({speed: `${data.vehicleSpeed}`, 
-                         battery_percentage: `${data.stateOfCharge}`, 
-                         gear: `${data.vehicleGear}`,
-                         frontPower: `${data.frontMotorTorque}`,
-                         rearPower: `${data.rearMotorTorque}`
-                         });
+        var data = JSON.parse(result);
+        self.setState({speed: `${data.vehicleSpeed}`, 
+         battery_percentage: `${data.stateOfCharge}`, 
+         gear: `${data.vehicleGear}`,
+         frontPower: `${data.frontMotorTorque}`,
+         rearPower: `${data.rearMotorTorque}`
+       });
       });
 
       //console.log(self.state);
     }
 
+
     componentDidMount() {
 
       const self = this;
       //Temperory disable for the test use
-      self.updateStatus();
-      self.intervalId = setInterval(self.updateStatus.bind(self), self.updateInterval);
+      // self.updateStatus();
+      // self.intervalId = setInterval(self.updateStatus.bind(self), self.updateInterval);
     }
 
     componentWillUnmount() {

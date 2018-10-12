@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BatteryModule from './battery_module';
 var Redis = require('ioredis');
-var redis = new Redis();
+var redis = new Redis(6379, '10.21.62.52');
 
 class Battery extends Component {
 

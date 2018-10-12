@@ -1,0 +1,12 @@
+.thermal {
+    width: 900px;
+    height: 600px;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.centerBlock {
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
+}

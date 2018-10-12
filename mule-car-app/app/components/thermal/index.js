@@ -6,8 +6,10 @@ import * as d3 from "d3";
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
 import { scaleSqrt, scaleThreshold, select, arc, scaleLinear, interpolate, scaleLog, line, polyline, range, easeCubicInOut, easeCircle} from 'd3';
 import styles from './thermal.css';
+
+
 var Redis = require('ioredis');
-var redis = new Redis();
+var redis = new Redis(6379, '10.21.62.52');
 
 export default class ThermalMain extends Component {
 
